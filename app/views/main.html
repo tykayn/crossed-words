@@ -1,36 +1,35 @@
 <div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
-  <h3 class="text-muted">crossed_words</h3>
+    <ul class="nav nav-pills pull-right">
+        <li class="active"><a ng-href="http://artlemoine.com">Portfolio</a></li>
+        <li><a ng-href="thtp://artlemoine.com/contact">Contact</a></li>
+    </ul>
+    <h3 class="text-muted">Tykayn's crossed_words</h3>
 </div>
 
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+    <h1>Crossed words</h1>
+    <div>
+        Créer des jeux de mots croisés et les résoudre en javascript.
+    </div>
+    <div>
+        voilà la grille:
+        <div ng-repeat="case in cases">
+            <div class="case" data-row="{{ case.row }}"  data-col="{{ case.col }}" >
+                {{ case.content }}
+            </div>
+        </div>
+
+    </div>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
 
 <div class="footer">
-  <p>♥ from the Yeoman team</p>
+    <h2>Left TODO</h2>
+    -tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
+    -grille reliée a un tableau de cases <br/>
+    -style flottant des cases <br/>
+    -taille de grille configurable<br/>
+    -tooltip sur les cases d'instruction<br/>
+
+    <p>♥ from the Yeoman team</p>
 </div>
