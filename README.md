@@ -1,4 +1,4 @@
 crossed-words
 =============
 
-build cross-world games using angular js
+build cross-word games using angular js
