@@ -1,35 +1,51 @@
-<div class="header">
-    <ul class="nav nav-pills pull-right">
-        <li class="active"><a ng-href="http://artlemoine.com">Portfolio</a></li>
-        <li><a ng-href="thtp://artlemoine.com/contact">Contact</a></li>
-    </ul>
-    <h3 class="text-muted">Tykayn's crossed_words</h3>
-</div>
-
-<div class="jumbotron">
-    <h1>Crossed words</h1>
-    <div>
-        Créer des jeux de mots croisés et les résoudre en javascript.
+hop 
+<div >
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+            <li class="active"><a href="http://artlemoine.com">Portfolio</a></li>
+            <li><a href="http://artlemoine.com/contact">Contact</a></li>
+        </ul>
+        <h3 class="text-muted">Tykayn's crossed_words</h3>
     </div>
-    <div>
-        voilà la grille:
-        <div ng-repeat="case in cases">
-            <div class="case" data-row="{{ case.row }}"  data-col="{{ case.col }}" >
-                {{ case.content }}
-            </div>
+
+    <div class="jumbotron">
+        <h1>Crossed words</h1>
+        <div>
+            Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
-
+        <fieldset>
+            <h2>Démo</h2>
+                    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' />            <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height' />
+           <br/>
+               <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain }}"/>
+               <br/>
+                </fieldset>
+        <div>
+            voilà la grille: ( cases ) 
+            <div ng-repeat="case in cases_exemple" width="{{ crossbox.width * 50 }}px">
+                <div class="case"
+                     data-row="{{ case.row }}"
+                     data-col="{{ case.col }}"
+                     data-word="{{ case.word }}"
+                     >
+                    {{ case.content }}
+                    
+                </div>
+            </div>
+            <hr/>
+        </div>
     </div>
-</div>
 
 
-<div class="footer">
-    <h2>Left TODO</h2>
-    -tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
-    -grille reliée a un tableau de cases <br/>
-    -style flottant des cases <br/>
-    -taille de grille configurable<br/>
-    -tooltip sur les cases d'instruction<br/>
-
-    <p>♥ from the Yeoman team</p>
+    <div class="footer">
+        <h2>Left TODO</h2>
+        -tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
+        -grille reliée a un tableau de cases <br/>
+        -style flottant des cases <br/>
+        -taille de grille configurable<br/>
+        -tooltip sur les cases d'instruction<br/>
+        -édition de mot par fenêtre modale<br/>
+        -surbrillance des mots par survol<br/>
+        -enregistrement des chaines de guidage<br/>
+    </div>
 </div>
