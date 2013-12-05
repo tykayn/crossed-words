@@ -15,27 +15,40 @@ hop
         </div>
         <fieldset>
             <h2>Démo</h2>
-                    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' />            <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height' />
+                    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' ng-change="upChain()"/>
+                    <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height'  ng-change="upChain()"/>
+                    <label>côté de case</label> <input  size="2" max="50" min="30" ng-model='side'  ng-change="upCase()"/>
            <br/>
                <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain }}"/>
                <br/>
                 </fieldset>
-        <div>
-            voilà la grille: ( cases ) 
-            <div ng-repeat="case in cases_exemple" width="{{ crossbox.width * 50 }}px">
-                <div class="case"
+        voilà la grille: ( cases )<br/>
+        <div class="grille" style="width:{{ crossbox.width * (60) }}px" ng-init="upChain()">
+            
+            
+            <div class="span6" ng-repeat="case in cases_exemple  | orderBy:'id':true  " >
+                <div class="case word_{{ case.word }} "
+                     ng-mouseenter="hightLight( {{ case.word }} )"
+                     ng-mouseout="downLight( {{ case.word }} )"
                      data-row="{{ case.row }}"
                      data-col="{{ case.col }}"
                      data-word="{{ case.word }}"
+                     width="{{ side }}px"
+                     height="{{ side }}px"
                      >
                     {{ case.content }}
                     
                 </div>
             </div>
             <hr/>
+            
+            
+            <hr/>
         </div>
     </div>
-
+<div class="span6"  >
+               {{ cases_exemple }} 
+            </div>
 
     <div class="footer">
         <h2>Left TODO</h2>
