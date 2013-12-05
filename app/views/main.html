@@ -29,7 +29,7 @@ hop
         <div class="grille" style="width:{{ crossbox.width * (60) }}px" ng-init="upChain()">
             
             
-            <div class="span6" ng-repeat="case in cases_exemple  | orderBy:'id':true  " >
+            <div class="span6" ng-repeat="case in cases_exemple  | orderBy:'id':number " >
                 <div 
                         ng-class="{ highLight : case.light }"
                         ng-click=" highLight(case.word) "

@@ -9,7 +9,7 @@ angular.module('crossedWordsApp')
     //décodage de la chaine de guidage pour reconstruire la grille
     $scope.upChain = function(){
        var tab = $scope.chain.split('');
-       $scope.cases_exemple = {};
+       $scope.cases_exemple = [{}];
        for( var i=0 ; i < ($scope.crossbox.width * $scope.crossbox.height ) ; i++){
            
            if(tab[i] != '' ){
