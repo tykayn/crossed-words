@@ -19,7 +19,8 @@ angular.module('crossedWordsApp')
                row: i,
                col : i/$scope.crossbox.width ,
                content :  tab[i] ,
-               word : 1
+               word : 1,
+               class : 'downlight'
                 } 
                }
                else{
@@ -28,7 +29,8 @@ angular.module('crossedWordsApp')
                row: i,
                col : i,
                content : '' ,
-               word : 2
+               word : 2,
+               class : 'downlight'
                }
               
             }     
@@ -37,17 +39,23 @@ angular.module('crossedWordsApp')
            
        }
     }; 
+    $scope.highLight = function(number){
+        console.log(number)
+       var tab = $scope.chain.split('');
+       
+       for( var i=0 ; i < ($scope.crossbox.width * $scope.crossbox.height ) ; i++){
+          var lacase = $scope.cases_exemple[i];
+               if(lacase.word == number ){
+                  lacase.light = !lacase.light
+               }
+           }
+    }; 
     //décodage de la chaine de guidage pour reconstruire la grille
     $scope.upCase = function(){
        
        
     }; 
-    $scope.highLight = function(numWord){
-       $('.word_'+numWord).addClass('highLight');
-    }; 
-    $scope.downLight = function(numWord){
-       $('.word_'+numWord).removeClass('highLight');
-    }; 
+
     $scope.crossbox = {width : 5 , height : 5};
     
     $scope.mots = 1;

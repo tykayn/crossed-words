@@ -23,18 +23,25 @@ hop
                <br/>
                 </fieldset>
         voilà la grille: ( cases )<br/>
+        <button ng-click="highLight(1)">
+            hightlight 1 
+        </button>
         <div class="grille" style="width:{{ crossbox.width * (60) }}px" ng-init="upChain()">
             
             
             <div class="span6" ng-repeat="case in cases_exemple  | orderBy:'id':true  " >
-                <div class="case word_{{ case.word }} "
-                     ng-mouseenter="hightLight( {{ case.word }} )"
-                     ng-mouseout="downLight( {{ case.word }} )"
+                <div 
+                        ng-class="{ highLight : case.light }"
+                        ng-click=" highLight(case.word) "
+                     ng-mouseenter="highLight(case.word)"
+                     ng-mouseleave="highLight(case.word)"
                      data-row="{{ case.row }}"
                      data-col="{{ case.col }}"
                      data-word="{{ case.word }}"
                      width="{{ side }}px"
                      height="{{ side }}px"
+                     
+                     class="case word_{{ case.word }} {{ case.class }}"
                      >
                     {{ case.content }}
                     
