@@ -8,64 +8,165 @@ hop
         <h3 class="text-muted">Tykayn's crossed_words</h3>
     </div>
 
-    <div class="jumbotron">
-        <h1>Crossed words</h1>
+    <div class="text-left">
+        <h1 class="jumbotron">Crossed words</h1>
         <div>
             Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
         <fieldset>
-            <h2>Démo</h2>
-                    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' ng-change="upChain()"/>
-                    <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height'  ng-change="upChain()"/>
-                    <label>côté de case</label> <input  size="2" max="50" min="30" ng-model='side'  ng-change="upCase()"/>
-           <br/>
-               <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain }}"/>
-               <br/>
-                </fieldset>
-        voilà la grille: ( cases )<br/>
-        <button ng-click="highLight(1)">
-            hightlight 1 
-        </button>
-        <div class="grille" style="width:{{ crossbox.width * (60) }}px" ng-init="upChain()">
-            
-            
-            <div class="span6" ng-repeat="case in cases_exemple  | orderBy:'id':number " >
-                <div 
-                        ng-class="{ highLight : case.light }"
-                        ng-click=" highLight(case.word) "
-                     ng-mouseenter="highLight(case.word)"
-                     ng-mouseleave="highLight(case.word)"
-                     data-row="{{ case.row }}"
-                     data-col="{{ case.col }}"
-                     data-word="{{ case.word }}"
-                     width="{{ side }}px"
-                     height="{{ side }}px"
-                     
-                     class="case word_{{ case.word }} {{ case.class }}"
-                     >
-                    {{ case.content }}
-                    
-                </div>
-            </div>
-            <hr/>
-            
-            
-            <hr/>
-        </div>
-    </div>
-<div class="span6"  >
-               {{ cases_exemple }} 
-            </div>
 
-    <div class="footer">
-        <h2>Left TODO</h2>
-        -tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
-        -grille reliée a un tableau de cases <br/>
-        -style flottant des cases <br/>
-        -taille de grille configurable<br/>
-        -tooltip sur les cases d'instruction<br/>
-        -édition de mot par fenêtre modale<br/>
-        -surbrillance des mots par survol<br/>
-        -enregistrement des chaines de guidage<br/>
+
+            <div class="grille" style="width:{{ crossbox.width * (60)}}px" ng-init="upChain()">
+
+                <h2>édition:</h2>
+                <button ng-click="Edition = !Edition">edit mode {{ Edition}}</button>
+
+
+                <fieldset class="well" 
+
+                          >
+
+
+                    Ajouter une énigme:
+                    Sens:
+                    <select size="6" ng-model="editDirection" ng-init="editDirection = 'droite'" ng-options="dir.descr for dir in directions ">
+                    </select>
+                    <br/>
+                    point de départ: 
+                    vous pouvez cliquer dans la grille pour définir ce point.
+                    <input ng-model="startId" ng-init="1" value="{{startId}}">
+
+                    <br/>
+                    énigme:<input ng-model="editEnigme" ng-init="editEnigme = 'le texte de l énigme'"><br/>
+                    bonne réponse:<input ng-model="editResponse" ng-init="editResponse = 'la bonne réponse'"><br/>
+                    <button ng-click="validateWord(startId)">valider</button>
+                    <button ng-click="editChain = ''">reset</button>
+                    <br/>
+                    editChain: <input ng-model="editChain">
+                    <br/>
+                    {{ editWords.length}} énigmes
+                    <br/>
+
+                    {{ editWords}}
+                </fieldset>
+
+                ng-show="Edition"
+                <input ng-model="cases_edit" ng-init="cases_edit = cases_exemple" />
+                <div  class="span6" ng-repeat="case in cases_edit| orderBy:'id':number " >
+
+                    <div 
+                        ng-class="{ highLight : case.light }"
+                        ng-click=" addEditChain(case.id); console.log(startId); case.light = !case.light; "
+                        data-row="{{ case.row}}"
+                        data-col="{{ case.col}}"
+                        data-word="{{ case.word}}"
+                        width="{{ side}}px"
+                        height="{{ side}}px"
+
+                        class="case word_{{ case.word}} {{ case.class}}"
+                        >
+                        {{ case.content}}
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <hr/>
+                <h2>résultat:</h2>
+                <div class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
+                    <div class="span6 " ng-repeat="case in cases_exemple| orderBy:'id':number " >
+                        <div 
+                            ng-class="{ highLight : case.light }"
+                            ng-click=" highLight(case.word); Edition = true"
+                            ng-mouseenter="highLight(case.word)"
+                            ng-mouseleave="highLight(case.word)"
+                            data-row="{{ case.row}}"
+                            data-col="{{ case.col}}"
+                            data-word="{{ case.word}}"
+                            width="{{ side}}px"
+                            height="{{ side}}px"
+
+                            class="case word_{{ case.word}} {{ case.class}}"
+                            >
+                            {{ case.content}}
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr/>
+                <h2>énigmes:</h2>
+                <div class="span12" ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
+                    {{ enigme.enigme}} :
+                    {{ enigme.id}} ) <input size="{{ enigme.reponse.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.reponse.length}} )
+                </div>
+
+                <input ng-model="num" />
+                <button ng-click="highLight(num)" ng-init="1">
+                    hightlight {{num}}
+                </button>
+                <hr/>
+            </div>
     </div>
+    <div class="span6"  >
+        {{ cases_exemple}} 
+    </div>
+
+    <h2>Démo</h2>
+    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' ng-change="upChain()"/>
+    <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height'  ng-change="upChain()"/>
+    <label>côté de case</label> <input  size="2" max="50" min="30" ng-model='side'  ng-change="upCase()"/>
+    <br/>
+    <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain}}"/>
+    <br/>
+</fieldset>
+voilà la grille: ( cases )<br/>
+
+<div yng-show="Edition" >
+    Edit this word:
+    <input ng-model="editword"/>
+    <button>ok</button>
+
+</div>
+<div class="footer">
+    <h2>Left TODO</h2>
+    édition:<br/>
+    
+    -direction gauche de mot<br/>
+    -direction bas de mot<br/>
+    -direction haut de mot<br/>
+    -pouvoir éditer une énigme dans la liste avec un click dessus.<br/>
+    -pouvoir supprimer une énigme dans la liste avec un click dessus.<br/>
+    -pouvoir enregistrer une grille d'énigmes.<br/>
+    -auto sélection de la direction droite<br/>
+    -limiter la taille de l'input de réponse selon sa distance au bord de grille<br/>
+    -quand on clique sur un mot, montrer un champ pour l'éditer<br/>
+    -tooltip sur les cases d'instruction<br/>
+    -édition de mot par fenêtre modale<br/>
+    -enregistrement des chaines de guidage<br/>
+    xdirection droite de mot<br/>
+    x-surbrillance des mots par survol<br/>
+    x-tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
+    x-grille reliée a un tableau de cases <br/>
+    x-style flottant des cases <br/>
+    x-taille de grille configurable<br/>
+</div>
 </div>
