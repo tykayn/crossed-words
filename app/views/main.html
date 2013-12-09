@@ -9,7 +9,7 @@ hop
     </div>
 
     <div class="text-left">
-        <h1 class="jumbotron">Crossed words</h1>
+        <h1 class="">Crossed words</h1>
         <div>
             Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
@@ -26,54 +26,77 @@ hop
                           ng-show="Edition"
                           >
 
-
+                    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' ng-change="upChain()"/>
+    <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height'  ng-change="upChain()"/>
+    <label>côté de case</label> <input  size="2" max="50" min="30" ng-model='side'  ng-change="upCase()"/>
                     Ajouter une énigme:
                     Sens:
-                    <select size="6" ng-model="editDirection" ng-init="editDirection = 'droite'" ng-options="dir.descr for dir in directions ">
-                    </select>
+                    <select size="6" ng-change="responseSize()" ng-model="editDirection" ng-init="editDirection = 'droite'" ng-options="dirs.descr for dirs in directions "></select>
                     <br/>
                     point de départ: 
                     vous pouvez cliquer dans la grille pour définir ce point.
-                    <input ng-model="startId" ng-init="1" value="{{startId}}">
+                    <input size="3" type="number" ng-model="startId" ng-init="1" value="{{startId}}">
 
                     <br/>
                     énigme:<input ng-model="editEnigme" ng-init="editEnigme = 'le texte de l énigme'"><br/>
-                    bonne réponse:<input ng-model="editResponse" ng-init="editResponse = 'la bonne réponse'"><br/>
+                    bonne réponse: ( taille max: {{ responseSize()}} ) <input ng-model="editResponse" ng-init="editResponse = 'la bonne réponse'" size="{{ responseSize()}}"><br/>
                     <button ng-click="validateWord(startId)">valider</button>
                     <button ng-click="editChain = ''">reset</button>
                     <br/>
-                    editChain: <input ng-model="editChain">
-                    <br/>
                     {{ editWords.length}} énigmes
                     <br/>
-                    <div  ng-show="Edition" class="span6" ng-repeat="word in editWords| orderBy:'id':number " >
-                        <input ng-model="word.enigme"  />
-                        <input ng-model="word.response"  />
+                    <div ng-show="Edition" class="span6" ng-repeat="word in editWords| orderBy:'id':number " >
+                        <input type="number" ng-change="editToChain(editWords)" ng-model="word.start"  ng-maxlength="3"/>
+                        <input  ng-change="editToChain(editWords)" ng-model="word.enigme"  />
+                        <input  ng-change="editToChain(editWords)" ng-model="word.response" size="{{ crossbox.width}}"/>
+                        <input  ng-change="editToChain(editWords)" ng-model="word.direction.descr"  />
                         <button ng-click="removeEnigme($index)">
                             x
                         </button>
                     </div>
+
+                </fieldset>
+                <h2 ng-click="startId = 12 ;">Rendu d'édition:</h2>
                     
+                <div ng-init="editToChain(editWords)" class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
+                    <div class="span6 " ng-repeat="case in cases_edit| orderBy:'id':number " >
+                        <div 
+                            ng-class="{ highLight : case.light }"
+                            ng-click="highLight(case.id) ; console.log(highLight(case.start)) ; startId = case.start ;"
+                            data-row="{{ case.row}}"
+                            data-col="{{ case.col}}"
+                            data-word="{{ case.word}}"
+                            width="{{ side}}px"
+                            height="{{ side}}px"
+
+                            class="case word_{{ case.word}} {{ case.class}}"
+                            >
+                            
+                            {{ case.content}}
+
+                        </div>
+                    </div>
+{{ cases_edit }}
+                </div>
+                
+                <fieldset class="well">
+                    <h2>Enigmes:</h2>
+                    <ul ng-show="Edition" class="span6"  >
+                        <li class="row-fluid unstyled" ng-repeat="word in editWords| orderBy:'id':number ">
+                            <div class="span6">
+                                {{$index}} ) {{word.enigme}}
+                            </div>
+                            <div class="span6">
+                                <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
+                            </div>
+                            
+                            
+                        </li>
+                    </ul>
+
                 </fieldset>
 
-                
-                <div  ng-show="Edition" class="span6" ng-repeat="case in cases_edit| orderBy:'id':number " >
 
-                    <div 
-                        ng-class="{ highLight : case.light }"
-                        ng-click=" addEditChain(case.id); console.log(startId); case.light = !case.light; "
-                        data-row="{{ case.row}}"
-                        data-col="{{ case.col}}"
-                        data-word="{{ case.word}}"
-                        width="{{ side}}px"
-                        height="{{ side}}px"
-
-                        class="case word_{{ case.word}} {{ case.class}}"
-                        >
-                        {{ case.content}}
-
-                    </div>
-                </div>
 
 
 
@@ -131,14 +154,9 @@ hop
                 <hr/>
             </div>
     </div>
-    <div class="span6"  >
-        {{ cases_exemple}} 
-    </div>
 
     <h2>Démo</h2>
-    <label>Largeur</label> <input size="2" max="50" ng-model='crossbox.width' ng-change="upChain()"/>
-    <label>Hauteur</label> <input  size="2" max="50" ng-model='crossbox.height'  ng-change="upChain()"/>
-    <label>côté de case</label> <input  size="2" max="50" min="30" ng-model='side'  ng-change="upCase()"/>
+    
     <br/>
     <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain}}"/>
     <br/>
@@ -154,10 +172,7 @@ voilà la grille: ( cases )<br/>
 <div class="footer">
     <h2>Left TODO</h2>
     édition:<br/>
-    
-    -direction gauche de mot<br/>
-    -direction bas de mot<br/>
-    -direction haut de mot<br/>
+
     -pouvoir éditer une énigme dans la liste avec un click dessus.<br/>
     -pouvoir supprimer une énigme dans la liste avec un click dessus.<br/>
     -pouvoir enregistrer une grille d'énigmes.<br/>
@@ -167,6 +182,10 @@ voilà la grille: ( cases )<br/>
     -tooltip sur les cases d'instruction<br/>
     -édition de mot par fenêtre modale<br/>
     -enregistrement des chaines de guidage<br/>
+    -editToChain() ne rend pas le tableau bien quand on déplace le start d'une réponse.
+    x-direction gauche de mot<br/>
+    x-direction bas de mot<br/>
+    x-direction haut de mot<br/>
     xdirection droite de mot<br/>
     x-surbrillance des mots par survol<br/>
     x-tableau de cases [{ row: 123 , col: 123 , content : "lettre" }] <br/>
