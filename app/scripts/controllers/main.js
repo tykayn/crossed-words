@@ -9,7 +9,8 @@ angular.module('crossedWordsApp')
             $scope.editResponse = '';
             $scope.editEnigme = '';
             $scope.editWords = [];
-            $scope.editDirection = 'droite'
+            $scope.editDirection = 'droite';
+            $scope.Edition = true;
             $scope.directions = [
                 {'descr': 'haut'},
                 {'descr': 'bas'},
@@ -70,6 +71,10 @@ angular.module('crossedWordsApp')
 
 
             };
+            $scope.removeEnigme = function(index) {
+                $scope.editWords.splice(index,1);
+
+            };
 
             // ajout dans la chaine de guidage du tableau d'édition
             $scope.addEditChain = function(id) {
@@ -82,54 +87,88 @@ angular.module('crossedWordsApp')
                 //pour chaque énigme, placer sa réponse selon son orientation
                 // cases est la chaine de guidage des réponses à construire
                 var cases = $scope.cases_edit;
-            //    var cases = [];
-              
-               var num_mot = 0;
-               //à chaque énigme, définir les cases selon le point de départ
+                //    var cases = [];
+
+                var num_mot = 0;
+                //à chaque énigme, définir les cases selon le point de départ
                 for (var i = 0; i <= array.length; i++) {
-                    if(array[i] != null ){
-                    num_mot++; // passer au mot suivant    
-                    var enigme = array[i];
-                    
-                    var longueur = enigme.response.length
-                    var tab = enigme.response.split('');
-                    console.log(' tab '+tab);
-                    var idFin =  enigme.start ;
-                    var  arrivee = longueur + enigme.start *1;
-                    if(arrivee > ( $scope.crossbox.width * $scope.crossbox.height )){
-                        arrivee = $scope.crossbox.width * $scope.crossbox.height;
-                    }
-                    // compteur de lettre car le tableau de réponse n'a pas les mêmes indexes que ceux des cases
-                    var compt = 0;
-                    
-                    if (enigme.direction.descr == 'droite') {
-                      
-                        
-                        for (var j = enigme.start; j <= arrivee ; j++) {
-                           console.log( 'j '+ j + ' /' + arrivee);
+                    if (array[i] != null) {
+                        num_mot++; // passer au mot suivant    
+                        var enigme = array[i];
+
+                        var longueur = enigme.response.length
+                        var tab = enigme.response.split('');
+                        console.log(' tab ' + tab);
+                        var idFin = enigme.start;
+                        var arrivee = longueur + enigme.start * 1;
+                        // limiter l'arrivée au nombre de cases
+                        if (arrivee > ($scope.crossbox.width * $scope.crossbox.height)) {
+                            arrivee = $scope.crossbox.width * $scope.crossbox.height;
+                        }
+                        // compteur de lettre car le tableau de réponse n'a pas les mêmes indexes que ceux des cases
+                        var compt = 0;
+
+                        if (enigme.direction.descr == 'droite') {
+
+
+                            for (var j = enigme.start; j <= arrivee; j++) {
+                                console.log('j ' + j + ' /' + arrivee);
                                 var lacase = {};
-                            lacase.id = j;
-                            lacase.word = num_mot;
-                            lacase.content =  tab[compt];
-                            compt++;
-                            cases[j] = lacase;
-                            console.log(  lacase );
+                                lacase.id = j;
+                                lacase.word = num_mot;
+                                lacase.content = tab[compt];
+                                compt++;
+                                cases[j] = lacase;
+                                console.log(lacase);
+                            }
+                        }
+                        else if (enigme.direction.descr == 'gauche') {
+                            var arrivee = enigme.start - longueur * 1;
+
+                            for (var j = enigme.start; j >= arrivee; j--) {
+                                console.log('j ' + j + ' /' + arrivee);
+                                var lacase = {};
+                                lacase.id = j;
+                                lacase.word = num_mot;
+                                lacase.content = tab[compt];
+                                compt++;
+                                cases[j] = lacase;
+                                console.log(lacase);
+                            }
+                        }
+                        else if (enigme.direction.descr == 'bas') {
+                            var arrivee = enigme.start + (longueur * $scope.crossbox.width);
+                            for (var j = enigme.start; j <= arrivee; j += $scope.crossbox.width) {
+                                console.log('j ' + j + ' /' + arrivee);
+                                var lacase = {};
+                                lacase.id = j;
+                                lacase.word = num_mot;
+                                lacase.content = tab[compt];
+                                compt++;
+                                cases[j] = lacase;
+                                console.log(lacase);
+                            }
+
+                        }
+                        else if (enigme.direction.descr == 'haut') {
+                            var arrivee = enigme.start - (longueur * $scope.crossbox.width);
+
+                            for (var j = enigme.start; j >= arrivee; j -= $scope.crossbox.width) {
+                                console.log('j ' + j + ' /' + arrivee);
+                                var lacase = {};
+                                lacase.id = j;
+                                lacase.word = num_mot;
+                                lacase.content = tab[compt];
+                                compt++;
+                                cases[j] = lacase;
+                                console.log(lacase);
+                            }
                         }
                     }
-                    else if (enigme.direction == 'gauche') {
-                        idFin = enigme.start - longueur;
-                    }
-                    else if (enigme.direction == 'bas') {
-                        idFin = enigme.start + (longueur * $scope.crossbox.width);
-                    }
-                    else if (enigme.direction == 'bas') {
-                        idFin = enigme.start - (longueur * $scope.crossbox.width);
-                    }
-                    }
-                    
-                    
+
+
                 }
-                
+
                 // rendre la chaine de guidage dans la vue d'édition
                 $scope.cases_edit = cases;
 

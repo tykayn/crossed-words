@@ -23,7 +23,7 @@ hop
 
 
                 <fieldset class="well" 
-
+                          ng-show="Edition"
                           >
 
 
@@ -46,13 +46,18 @@ hop
                     <br/>
                     {{ editWords.length}} énigmes
                     <br/>
-
-                    {{ editWords}}
+                    <div  ng-show="Edition" class="span6" ng-repeat="word in editWords| orderBy:'id':number " >
+                        <input ng-model="word.enigme"  />
+                        <input ng-model="word.response"  />
+                        <button ng-click="removeEnigme($index)">
+                            x
+                        </button>
+                    </div>
+                    
                 </fieldset>
 
-                ng-show="Edition"
-                <input ng-model="cases_edit" ng-init="cases_edit = cases_exemple" />
-                <div  class="span6" ng-repeat="case in cases_edit| orderBy:'id':number " >
+                
+                <div  ng-show="Edition" class="span6" ng-repeat="case in cases_edit| orderBy:'id':number " >
 
                     <div 
                         ng-class="{ highLight : case.light }"

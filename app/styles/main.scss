@@ -13,6 +13,10 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 body {
     padding-top: 20px;
     padding-bottom: 20px;
+    background: #009999;
+}
+.container{
+    background: #fff;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -90,11 +94,12 @@ body {
     }
 }
 .case{
-    background: #fff;
+    background: #c9e2b3;
     width: 50px;
     height: 50px;
     float: left;
     margin: 2px;
+    cursor: pointer;
 }
 .case:hover{
     background: #ccc;
