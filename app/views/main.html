@@ -144,10 +144,20 @@ hop
                             {{ enigme.enigme}} :
                         </label>
 
-                        {{ enigme.id}} ) <input id="enigme_{{ enigme.id}}" class="input input-lg" maxlength="{{ enigme.response.length}}" size="{{ enigme.response.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.response.length}} lettres)
+                        {{ enigme.id}} ) 
+                        <input 
+                            d="enigme_{{ enigme.id}}" 
+                            class="input input-lg" 
+                            maxlength="{{ enigme.response.length}}"
+                            size="{{ enigme.response.length}}" 
+                            ng-model="enigme.input"
+                            ng-change="compare() ; highLightWord(enigme.id)"
+                            ng-focus="highLightWord(enigme.id)"
+                            >
+                        ( {{ enigme.response.length}} lettres)
                     </div>
 
-                    
+
 
                 </section>
                 <input ng-model="num" />

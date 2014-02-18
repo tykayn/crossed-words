@@ -108,10 +108,22 @@ angular.module('crossedWordsApp')
 
                 }
             };
+            /* mettre en surbrillance un mot et enlever la surbrillance aux autres */
+            $scope.highLightWord = function(number) {
+                for (var i = 0; i < ($scope.crossbox.width * $scope.crossbox.height); i++) {
+                    var lacase = $scope.cases_edit[i];
+                    if (lacase.word == number) {
+                        lacase.light = true;
+                    }
+                    else{
+                        lacase.light = false;
+                    }
+                }
+            }
             /* mettre en surbrillance une case et définir le départ d'édition a cette case */
             $scope.highLight = function(number) {
                 $scope.startId = number;
-                var tab = $scope.chain.split('');
+               // var tab = $scope.chain.split('');
                 for (var i = 0; i < ($scope.crossbox.width * $scope.crossbox.height); i++) {
                     var lacase = $scope.cases_edit[i];
                     if (lacase.word == number) {
@@ -294,7 +306,7 @@ angular.module('crossedWordsApp')
                         tab.response = enigmeTab[i].input;
                     }
                     else {
-                        tab.response = '-';
+                        tab.response = '';
                     }
                     tab.id = enigmeTab[i].id;
                     tab.enigme = enigmeTab[i].enigme;
@@ -328,7 +340,7 @@ angular.module('crossedWordsApp')
                 var cases = []
                 var totalCases = $scope.crossbox.width * $scope.crossbox.height
 
-                for (var i = 0; i <= totalCases; i++) {
+                for (var i = 0; i < totalCases; i++) {
                     cases.push({id: i})
                 }
 

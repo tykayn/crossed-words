@@ -102,7 +102,7 @@ body {
     display: inline-block;
     margin: 2px;
     cursor: pointer;
-    text-align: center;
+    text-align: center !important;
     padding-top: 15px;
 }
 .case:hover{
@@ -133,4 +133,7 @@ body {
 
 .commentaire .panel-heading{
     font-size: 1.5em;
+}
+.well{
+    background: #ccc;
 }
