@@ -40,7 +40,7 @@ hop
                     <br/>
                     énigme:<input ng-model="editEnigme" ng-init="editEnigme = 'le texte de l énigme'"><br/>
                     bonne réponse: ( taille max: {{ responseSize()}} )
-                    <input ng-model="editResponse" ng-init="editResponse = 'la bonne réponse'" size="{{ responseSize()}}"><br/>
+                    <input ng-model="editResponse" ng-init="editResponse = 'la bonne réponse'" size="{{ responseSize()}}" maxlength="{{ responseSize()}}"><br/>
                     <button ng-click="validateWord(startId)">valider</button>
                     <button ng-click="editChain = ''">reset</button>
                     <br/>

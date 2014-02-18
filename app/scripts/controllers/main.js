@@ -264,6 +264,7 @@ angular.module('crossedWordsApp')
             $scope.validateWord = function(startId) {
                 var i = $scope.editWords.length + 1;
                 var word = {};
+                word.id = i;
                 word.response = $scope.editResponse;
                 word.enigme = $scope.editEnigme;
                 word.start = $scope.startId;
@@ -323,17 +324,21 @@ angular.module('crossedWordsApp')
             $scope.cases_edit = [
                 {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
             ];
+            
+            
             /**
              * énigmes d'exemple
              */
             $scope.mots = [{"id": 1, "response": "sumotori", "enigme": "oiseau léger", "start": 41, "direction": {"descr": "droite"}}, {"id": 2, "response": "fesses", "enigme": "callypiges", "start": 21, "direction": {"descr": "bas"}}, {"id": 3, "response": "poulet", "enigme": "et mon cul c'est du", "start": 36, "direction": {"descr": "bas"}}]
 
-            $scope.cases_exemple = [
-                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
-                {id: 2, row: 1, col: 2, content: 'b', word: 1, light: 0},
-                {id: 3, row: 1, col: 3, content: 'c', word: 1, light: 0},
-                {id: 4, row: 1, col: 4, content: 'd', word: 1, light: 0},
-                {id: 5, row: 1, col: 5, content: 'e', word: 1, light: 0}];
+            $scope.editWords = $scope.mots;
+            $scope.cases_exemple = $scope.mots;
+//            $scope.cases_exemple = [
+//                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
+//                {id: 2, row: 1, col: 2, content: 'b', word: 1, light: 0},
+//                {id: 3, row: 1, col: 3, content: 'c', word: 1, light: 0},
+//                {id: 4, row: 1, col: 4, content: 'd', word: 1, light: 0},
+//                {id: 5, row: 1, col: 5, content: 'e', word: 1, light: 0}];
 
             /* créer une lsite de cases vides */
             $scope.casesVides = function() {
