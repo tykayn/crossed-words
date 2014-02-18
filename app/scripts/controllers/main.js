@@ -3,7 +3,7 @@ angular.module('crossedWordsApp')
         .controller('MainCtrl', function($scope) {
 
             // chaine de guidage
-            $scope.chain = "abcdefgh";
+            $scope.chain = 'abcdefgh';
             $scope.editChain = '';
             $scope.editResponse = '';
             $scope.editEnigme = '';
@@ -11,10 +11,10 @@ angular.module('crossedWordsApp')
             $scope.editDirection = 'droite';
             $scope.Edition = true;
             var tab = [];
-                for(var i=0; i<100; i++){
-                    tab[i] = {id: i, row: 1, col: 5, content: '', word: 0}
-                }
-                console.log(tab)
+            for (var i = 0; i < 100; i++) {
+                tab[i] = {id: i, row: 1, col: 5, content: '', word: 0};
+            }
+            console.log(tab)
             $scope.cases_vides = tab
             $scope.directions = [
                 {'descr': 'haut'},
@@ -32,9 +32,9 @@ angular.module('crossedWordsApp')
                 var size = $scope.crossbox.width;
 
 
-                var lines = Math.round($scope.startId / $scope.crossbox.width) + 1 // le nombre de lignes de la case arrondi au supérieur
-                var linesCases = lines * $scope.crossbox.width // le nombre de cases jusqu'au bout de la ligne
-                var linesCasesMinus = (lines - 1) * $scope.crossbox.width // le nombre de cases jusqu'au bout de la ligne
+                var lines = Math.round($scope.startId / $scope.crossbox.width) + 1; // le nombre de lignes de la case arrondi au supérieur
+                var linesCases = lines * $scope.crossbox.width;// le nombre de cases jusqu'au bout de la ligne
+                var linesCasesMinus = (lines - 1) * $scope.crossbox.width; // le nombre de cases jusqu'au bout de la ligne
                 switch ($scope.editDirection.descr)
                 {
                     case 'droite':
@@ -66,6 +66,13 @@ angular.module('crossedWordsApp')
 
 
                 return size;
+            }
+
+            //mise en avant de la case pour ajouter une énigme
+            $scope.hlStart = function(id) {
+                $scope.highLight(id);
+                console.log(highLight(id));
+                startId = id;
             }
             //décodage de la chaine de guidage pour reconstruire la grille
             $scope.upChain = function() {
@@ -101,10 +108,12 @@ angular.module('crossedWordsApp')
 
                 }
             };
+            /* mettre en surbrillance une case et définir le départ d'édition a cette case */
             $scope.highLight = function(number) {
+                $scope.startId = number;
                 var tab = $scope.chain.split('');
                 for (var i = 0; i < ($scope.crossbox.width * $scope.crossbox.height); i++) {
-                    var lacase = $scope.cases_exemple[i];
+                    var lacase = $scope.cases_edit[i];
                     if (lacase.word == number) {
                         lacase.light = !lacase.light
                     }
@@ -117,16 +126,29 @@ angular.module('crossedWordsApp')
             };
             $scope.removeEnigme = function(index) {
                 $scope.editWords.splice(index, 1);
+                $scope.casesVides();
+                $scope.editToChain($scope.cases_edit);
             };
             // ajout dans la chaine de guidage du tableau d'édition
             $scope.addEditChain = function(id) {
                 $scope.startId = id;
             };
+
+
+            // donne la colonne de l'id demandé selon la taille de la grille
+            $scope.getCol = function(id) {
+                return id;
+            }
+            // donne la ligne de l'id demandé selon la taille de la grille
+            $scope.getRow = function(id) {
+                return id;
+            }
             // décrypte le tableau d'édition pour en faire une chaine de  guidage
             $scope.editToChain = function(array) {
                 //pour chaque énigme, placer sa réponse selon son orientation
                 // cases est la chaine de guidage des réponses à construire
-                var cases = $scope.cases_vides
+                $scope.cases_vides = $scope.casesVides();
+                var cases = $scope.cases_vides;
 
                 var num_mot = 0;
                 //à chaque énigme, définir les cases selon le point de départ
@@ -148,14 +170,13 @@ angular.module('crossedWordsApp')
                         var compt = 0;
                         if (enigme.direction.descr == 'droite' || enigme.direction.descr == undefined) {
 
-                            for (var j = enigme.start; j < arrivee; j++) {
+                            for (var j = enigme.start; j <= arrivee; j++) {
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
                                 lacase.content = tab[compt];
                                 compt++;
                                 cases[j] = lacase;
-                                
                             }
                         }
                         else if (enigme.direction.descr == 'gauche') {
@@ -167,7 +188,7 @@ angular.module('crossedWordsApp')
                                 lacase.content = tab[compt];
                                 compt++;
                                 cases[j] = lacase;
-                                
+
                             }
                         }
                         else if (enigme.direction.descr == 'bas') {
@@ -179,7 +200,7 @@ angular.module('crossedWordsApp')
                                 lacase.content = tab[compt];
                                 compt++;
                                 cases[j] = lacase;
-                                
+
                             }
 
                         }
@@ -192,20 +213,20 @@ angular.module('crossedWordsApp')
                                 lacase.content = tab[compt];
                                 compt++;
                                 cases[j] = lacase;
-                                
+
                             }
                         }
                     }
-                    else{
+                    else {
                         lacase.content = '';
                     }
-                   
+
 
                 }
 
                 // rendre la chaine de guidage dans la vue d'édition
                 $scope.cases_edit = cases;
-                
+
             }
             // ajoute le mot dans le tableau d'édition
             $scope.validateWord = function(startId) {
@@ -228,7 +249,7 @@ angular.module('crossedWordsApp')
 
             };
             $scope.cases_edit = [
-                {id: 1, row: 1, col: 1, content: 'a', word: 1},
+                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
             ];
             $scope.mots = [
                 {id: 1,
@@ -241,12 +262,14 @@ angular.module('crossedWordsApp')
                 },
             ];
             $scope.cases_exemple = [
-                {id: 1, row: 1, col: 1, content: 'a', word: 1},
-                {id: 2, row: 1, col: 2, content: 'b', word: 1},
-                {id: 3, row: 1, col: 3, content: 'c', word: 1},
-                {id: 4, row: 1, col: 4, content: 'd', word: 1},
-                {id: 5, row: 1, col: 5, content: 'e', word: 1}];
-            $scope.casesVides = function($scope) {
+                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
+                {id: 2, row: 1, col: 2, content: 'b', word: 1, light: 0},
+                {id: 3, row: 1, col: 3, content: 'c', word: 1, light: 0},
+                {id: 4, row: 1, col: 4, content: 'd', word: 1, light: 0},
+                {id: 5, row: 1, col: 5, content: 'e', word: 1, light: 0}];
+
+            /* créer une lsite de cases vides */
+            $scope.casesVides = function() {
                 var cases = []
                 var totalCases = $scope.crossbox.width * $scope.crossbox.height
 
