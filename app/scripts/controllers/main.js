@@ -3,7 +3,7 @@ angular.module('crossedWordsApp')
         .controller('MainCtrl', function($scope) {
 
             // chaine de guidage
-            $scope.chain = 'abcdefgh';
+            $scope.chain = 'abc';
             $scope.editChain = '';
             $scope.editResponse = '';
             $scope.editEnigme = '';
@@ -24,7 +24,7 @@ angular.module('crossedWordsApp')
             ];
             $scope.crossbox = {width: 10, height: 10};
             $scope.startId = 0;
-            $scope.mots = [];
+          //  $scope.mots = [];
             $scope.side = 50;
             //trouver la taille maximum de la réponse selon l'emplacement de son départ et la taille de grille.
             $scope.responseSize = function() {

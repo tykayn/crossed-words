@@ -16,7 +16,7 @@ hop
         <fieldset>
 
 
-            <div class="grille" style="width:{{ crossbox.width * (60)}}px" ng-init="upChain()">
+            <div class="grille"  style="width:100%;" ng-init="upChain()">
 
                 <h2>édition:</h2>
                 <button ng-click="Edition = !Edition">edit mode {{ Edition}}</button>
@@ -97,7 +97,7 @@ hop
                             <ul ng-show="Edition" class="span12"  >
                                 <li class="row-fluid unstyled" ng-repeat="word in editWords| orderBy:'id':number ">
                                     <div class="span6">
-                                        {{$index}} ) {{word.enigme}}
+                                        {{$index}} ) ------- {{word.enigme}}
                                     </div>
                                     <div class="span6">
                                         <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
@@ -116,84 +116,81 @@ hop
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <hr/>
-                <section class="well">
-                    <h2>énigmes:</h2>
-                    <div class="alert alert-success" ng-show="won">
-                        Woot! vous avez gagné!
+                <div class="row-fluid">
+                    <div class="span12">
+
+
+                        <div class="span6">
+                            <section class="well">
+                                <h2>énigmes:</h2>
+                                <div class="alert alert-success" ng-show="won">
+                                    Woot! vous avez gagné!
+                                </div>
+                                <!--mots : {{mots}}-->
+                                <!--                    responsesUser : {{responsesUser}}-->
+                                <div class="row-fluid " ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
+                                    <div class="span5">
+                                        <label for="enigme_{{ enigme.id}}">
+                                            {{ enigme.id}} )    {{ enigme.enigme}} :
+                                        </label>
+                                    </div>  
+                                    <div class="span6">
+                                        <input 
+                                            d="enigme_{{ enigme.id}}" 
+                                            class="input input-lg" 
+                                            maxlength="{{ enigme.response.length}}"
+                                            size="{{ enigme.response.length}}" 
+                                            ng-model="enigme.input"
+                                            ng-change="compare(); highLightWord(enigme.id)"
+                                            ng-focus="highLightWord(enigme.id)"
+                                            >
+                                        ( {{ enigme.response.length}} lettres)
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="span6">
+                            <section class="well-sm well">
+                                <h2>Grille:</h2>
+                                <div class=""   
+                                     style=" height: {{ side * crossbox.height}}px ; width : {{ side * (crossbox.width + 1) }}px"
+                                     >
+
+
+                                    <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number " >
+
+                                        <div 
+                                            ng-class="{ highLight : case.light }"
+                                            ng-click=" highLight(case.word); Edition = true"
+                                            ng-mouseenter="highLight(case.word)"
+                                            ng-mouseleave="highLight(case.word)"
+                                            data-row="{{ case.row}}"
+                                            data-col="{{ case.col}}"
+                                            data-word="{{ case.word}}"
+                                            width="{{ side}}px"
+                                            height="{{ side}}px"
+
+                                            class="case word_{{ case.word}} {{ case.class}}"
+                                            >
+                                            {{ case.content}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
                     </div>
-                    <!--mots : {{mots}}-->
-                    <!--                    responsesUser : {{responsesUser}}-->
-                    <div class="span12" ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
-                        <label for="enigme_{{ enigme.id}}">
-                            {{ enigme.enigme}} :
-                        </label>
+                </div>     
+                <hr/>
 
-                        {{ enigme.id}} ) 
-                        <input 
-                            d="enigme_{{ enigme.id}}" 
-                            class="input input-lg" 
-                            maxlength="{{ enigme.response.length}}"
-                            size="{{ enigme.response.length}}" 
-                            ng-model="enigme.input"
-                            ng-change="compare() ; highLightWord(enigme.id)"
-                            ng-focus="highLightWord(enigme.id)"
-                            >
-                        ( {{ enigme.response.length}} lettres)
-                    </div>
-
-
-
-                </section>
                 <input ng-model="num" />
                 <button ng-click="highLight(num)" ng-init="1">
                     hightlight {{num}}
                 </button>
-                <section class="well-sm well">
 
 
-                    <h2>Grille:</h2>
 
-                    <div class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
-                        <div class="span6 " ng-repeat="case in cases_exemple| orderBy:'id':number " >
-
-                            <div 
-                                ng-class="{ highLight : case.light }"
-                                ng-click=" highLight(case.word); Edition = true"
-                                ng-mouseenter="highLight(case.word)"
-                                ng-mouseleave="highLight(case.word)"
-                                data-row="{{ case.row}}"
-                                data-col="{{ case.col}}"
-                                data-word="{{ case.word}}"
-                                width="{{ side}}px"
-                                height="{{ side}}px"
-
-                                class="case word_{{ case.word}} {{ case.class}}"
-                                >
-                                {{ case.content}}
-
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <hr/>
 
 
                 <hr/>
@@ -218,6 +215,7 @@ voilà la grille: ( cases )<br/>
     <h2>Left TODO</h2>
     édition:<br/>
 
+    -prob avec les ng-select.<br/>
     -pouvoir éditer une énigme dans la liste avec un click dessus.<br/>
     -pouvoir supprimer une énigme dans la liste avec un click dessus.<br/>
     -pouvoir enregistrer une grille d'énigmes.<br/>
