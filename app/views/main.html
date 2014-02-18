@@ -138,46 +138,50 @@ hop
                         Woot! vous avez gagné!
                     </div>
                     <!--mots : {{mots}}-->
-<!--                    responsesUser : {{responsesUser}}-->
+                    <!--                    responsesUser : {{responsesUser}}-->
                     <div class="span12" ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
                         <label for="enigme_{{ enigme.id}}">
                             {{ enigme.enigme}} :
                         </label>
 
-                        {{ enigme.id}} ) <input id="enigme_{{ enigme.id}}" class="input input-lg" size="{{ enigme.reponse.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.reponse.length}} )
+                        {{ enigme.id}} ) <input id="enigme_{{ enigme.id}}" class="input input-lg" maxlength="{{ enigme.response.length}}" size="{{ enigme.response.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.response.length}} lettres)
                     </div>
 
-                    <input ng-model="num" />
-                    <button ng-click="highLight(num)" ng-init="1">
-                        hightlight {{num}}
-                    </button>
+                    
+
                 </section>
+                <input ng-model="num" />
+                <button ng-click="highLight(num)" ng-init="1">
+                    hightlight {{num}}
+                </button>
+                <section class="well-sm well">
 
-                <h2>résultat:</h2>
 
-                <div class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
-                    <div class="span6 " ng-repeat="case in cases_exemple| orderBy:'id':number " >
+                    <h2>Grille:</h2>
 
-                        <div 
-                            ng-class="{ highLight : case.light }"
-                            ng-click=" highLight(case.word); Edition = true"
-                            ng-mouseenter="highLight(case.word)"
-                            ng-mouseleave="highLight(case.word)"
-                            data-row="{{ case.row}}"
-                            data-col="{{ case.col}}"
-                            data-word="{{ case.word}}"
-                            width="{{ side}}px"
-                            height="{{ side}}px"
+                    <div class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
+                        <div class="span6 " ng-repeat="case in cases_exemple| orderBy:'id':number " >
 
-                            class="case word_{{ case.word}} {{ case.class}}"
-                            >
-                            {{ case.content}}
+                            <div 
+                                ng-class="{ highLight : case.light }"
+                                ng-click=" highLight(case.word); Edition = true"
+                                ng-mouseenter="highLight(case.word)"
+                                ng-mouseleave="highLight(case.word)"
+                                data-row="{{ case.row}}"
+                                data-col="{{ case.col}}"
+                                data-word="{{ case.word}}"
+                                width="{{ side}}px"
+                                height="{{ side}}px"
 
+                                class="case word_{{ case.word}} {{ case.class}}"
+                                >
+                                {{ case.content}}
+
+                            </div>
                         </div>
+
                     </div>
-
-                </div>
-
+                </section>
 
                 <hr/>
 

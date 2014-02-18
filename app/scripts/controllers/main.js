@@ -152,7 +152,7 @@ angular.module('crossedWordsApp')
                 var num_mot = 0;
                 //à chaque énigme, définir les cases selon le point de départ
                 console.log('il y a  ' + array.length + ' énigmes');
-                        console.log(enigme);
+                console.log(enigme);
                 for (var i = 0; i < array.length; i++) {
                     if (array[i] != null) {
                         num_mot++; // passer au mot suivant    
@@ -169,32 +169,36 @@ angular.module('crossedWordsApp')
                         }
                         // compteur de lettre car le tableau de réponse n'a pas les mêmes indexes que ceux des cases
                         var compt = 0;
-                        if( enigme.direction.descr == undefined){
+                        if (enigme.direction.descr == undefined) {
                             var dir = enigme.direction;
                         }
-                        else{
+                        else {
                             var dir = enigme.direction.descr;
                         }
-                        
-                        
+
+
                         if (dir == 'droite' || dir == undefined) {
 
-                            for (var j = enigme.start; j <= arrivee; j++) {
+                            for (var j = enigme.start; j < arrivee; j++) {
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                lacase.content = tab[compt];
+                                if (tab[compt] != '') {
+                                    lacase.content = tab[compt];
+                                }
                                 compt++;
                                 cases[j] = lacase;
                             }
                         }
                         else if (dir == 'gauche') {
                             var arrivee = enigme.start - longueur * 1;
-                            for (var j = enigme.start; j >= arrivee; j--) {
+                            for (var j = enigme.start; j > arrivee; j--) {
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                lacase.content = tab[compt];
+                                if (tab[compt] != '') {
+                                    lacase.content = tab[compt];
+                                }
                                 compt++;
                                 cases[j] = lacase;
 
@@ -202,11 +206,14 @@ angular.module('crossedWordsApp')
                         }
                         else if (dir == 'bas') {
                             var arrivee = enigme.start + (longueur * $scope.crossbox.width);
-                            for (var j = enigme.start; j <= arrivee; j += $scope.crossbox.width) {
+                            for (var j = enigme.start; j < arrivee; j += $scope.crossbox.width) {
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                lacase.content = tab[compt];
+                                if (tab[compt] != '') {
+                                    lacase.content = tab[compt];
+                                }
+
                                 compt++;
                                 cases[j] = lacase;
 
@@ -215,11 +222,13 @@ angular.module('crossedWordsApp')
                         }
                         else if (dir == 'haut') {
                             var arrivee = enigme.start - (longueur * $scope.crossbox.width);
-                            for (var j = enigme.start; j >= arrivee; j -= $scope.crossbox.width) {
+                            for (var j = enigme.start; j > arrivee; j -= $scope.crossbox.width) {
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                lacase.content = tab[compt];
+                                if (tab[compt] != '') {
+                                    lacase.content = tab[compt];
+                                }
                                 compt++;
                                 cases[j] = lacase;
 
@@ -255,7 +264,7 @@ angular.module('crossedWordsApp')
             $scope.compare = function() {
                 var compt_ok = 0;
                 for (var i = 0; i < ($scope.mots.length); i++) {
-                    if ($scope.mots[i].reponse == $scope.mots[i].input) {
+                    if ($scope.mots[i].response == $scope.mots[i].input) {
                         $scope.mots[i].ok = true;
                         compt_ok++;
                     }
@@ -275,28 +284,26 @@ angular.module('crossedWordsApp')
              * @returns {array} tableau d'énigmes prêt à être affiché en grille
              */
             $scope.getResponsesUser = function(enigmeTab) {
-              var  tabRep = new Array();
+                var tabRep = new Array();
                 for (var i = 0; i < enigmeTab.length; i++) {
                     tab = {};
-                    if( enigmeTab[i]== undefined ){
-                        enigmeTab[i] = new Array(); 
+                    if (enigmeTab[i] == undefined) {
+                        enigmeTab[i] = new Array();
                     }
-                    if( enigmeTab[i].input !== undefined ){
+                    if (enigmeTab[i].input !== undefined) {
                         tab.response = enigmeTab[i].input;
                     }
-                    else{
+                    else {
                         tab.response = '-';
                     }
-                    
                     tab.id = enigmeTab[i].id;
                     tab.enigme = enigmeTab[i].enigme;
                     tab.start = enigmeTab[i].start;
                     tab.direction = enigmeTab[i].direction;
-                  //  tab[i].direction.descr = $scope.mots[i].direction;
-                  tabRep.push(tab);
+                    tabRep.push(tab);
                 }
-                console.log('getResponsesUser tab' );
-                console.log(tabRep)
+//                console.log('getResponsesUser tab');
+//                console.log(tabRep)
                 $scope.responsesUser = tabRep;
                 return tabRep;
             }
@@ -307,7 +314,7 @@ angular.module('crossedWordsApp')
             /**
              * énigmes d'exemple
              */
-            $scope.mots = [{"id":1,"response":"sumotori","enigme":"oiseau léger","start":41,"direction":{"descr":"droite"}},{"id":2,"response":"fesses","enigme":"callypiges","start":21,"direction":{"descr":"bas"}},{"id":3,"response":"poulet","enigme":"et mon cul c'est du","start":36,"direction":{"descr":"bas"}}]
+            $scope.mots = [{"id": 1, "response": "sumotori", "enigme": "oiseau léger", "start": 41, "direction": {"descr": "droite"}}, {"id": 2, "response": "fesses", "enigme": "callypiges", "start": 21, "direction": {"descr": "bas"}}, {"id": 3, "response": "poulet", "enigme": "et mon cul c'est du", "start": 36, "direction": {"descr": "bas"}}]
 
             $scope.cases_exemple = [
                 {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
