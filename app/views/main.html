@@ -52,59 +52,64 @@ hop
                         <input  ng-change="editToChain(editWords)" ng-model="word.enigme"  />
                         <input  ng-change="editToChain(editWords)" ng-model="word.response" size="{{ crossbox.width}}"/>
                         <select size="6" ng-change="responseSize()" ng-model="word.direction.descr" ng-options="dirs.descr for dirs in directions "></select>
-                        
+
                         <input  ng-change="editToChain(editWords)" ng-model="word.direction.descr"  />
                         <button ng-click="removeEnigme($index)">
                             x
                         </button>
                     </div>
-                    {{ editWords }}
+                    {{ editWords}}
                 </fieldset>
-                <h2 ng-click="startId = 12;">Rendu d'édition:</h2>
+                <div ng-show="Edition">
 
-                <div ng-init="editToChain(editWords)" class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
-                    <div class="span6 " ng-repeat="case in cases_edit| orderBy:'id':number " >
-                        <div 
-                            ng-class="{ highLight : case.light }"
-                            ng-click="hlStart(case.id);"
-                            data-id="{{ case.id }}"
-                            data-row="{{ getRow(case.id) }}"
-                            data-col="{{ getCol(case.id) }}"
-                            data-word="{{ case.word}}"
-                            width="{{ side}}px"
-                            height="{{ side}}px"
 
-                            class="case word_{{ case.word}} {{ case.class}}"
-                            >
+                    <h2 ng-click="startId = 12;">Rendu d'édition:</h2>
 
-                            {{ case.content}}
+                    <div ng-init="editToChain(editWords)" class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
+                        <div class="span6 " ng-repeat="case in cases_edit| orderBy:'id':number " >
+                            <div 
+                                ng-class="{ highLight : case.light }"
+                                ng-click="hlStart(case.id);"
+                                data-id="{{ case.id}}"
+                                data-row="{{ getRow(case.id)}}"
+                                data-col="{{ getCol(case.id)}}"
+                                data-word="{{ case.word}}"
+                                width="{{ side}}px"
+                                height="{{ side}}px"
 
+                                class="case word_{{ case.word}} {{ case.class}}"
+                                >
+
+                                {{ case.content}}
+
+                            </div>
                         </div>
+                        <!--                    cases_edit 
+                                            {{ cases_edit}}-->
+
+                        <!--                    <hr />-->
+                        <!--                    cases vides:
+                                            {{ cases_vides }}-->
                     </div>
-                    cases_edit 
-                    {{ cases_edit}}
-                    
-                    <hr />
-                    cases vides:
-                    {{ cases_vides }}
+                    <form>
+                        <fieldset class="well">
+                            <h2>Enigmes:</h2>
+                            <ul ng-show="Edition" class="span12"  >
+                                <li class="row-fluid unstyled" ng-repeat="word in editWords| orderBy:'id':number ">
+                                    <div class="span6">
+                                        {{$index}} ) {{word.enigme}}
+                                    </div>
+                                    <div class="span6">
+                                        <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
+                                    </div>
+
+
+                                </li>
+                            </ul>
+
+                        </fieldset>
+                    </form>
                 </div>
-
-                <fieldset class="well">
-                    <h2>Enigmes:</h2>
-                    <ul ng-show="Edition" class="span6"  >
-                        <li class="row-fluid unstyled" ng-repeat="word in editWords| orderBy:'id':number ">
-                            <div class="span6">
-                                {{$index}} ) {{word.enigme}}
-                            </div>
-                            <div class="span6">
-                                <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
-                            </div>
-
-
-                        </li>
-                    </ul>
-
-                </fieldset>
 
 
 
@@ -127,9 +132,32 @@ hop
 
 
                 <hr/>
+                <section class="well">
+                    <h2>énigmes:</h2>
+                    <div class="alert alert-success" ng-show="won">
+                        Woot! vous avez gagné!
+                    </div>
+                    <!--mots : {{mots}}-->
+<!--                    responsesUser : {{responsesUser}}-->
+                    <div class="span12" ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
+                        <label for="enigme_{{ enigme.id}}">
+                            {{ enigme.enigme}} :
+                        </label>
+
+                        {{ enigme.id}} ) <input id="enigme_{{ enigme.id}}" class="input input-lg" size="{{ enigme.reponse.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.reponse.length}} )
+                    </div>
+
+                    <input ng-model="num" />
+                    <button ng-click="highLight(num)" ng-init="1">
+                        hightlight {{num}}
+                    </button>
+                </section>
+
                 <h2>résultat:</h2>
+
                 <div class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
                     <div class="span6 " ng-repeat="case in cases_exemple| orderBy:'id':number " >
+
                         <div 
                             ng-class="{ highLight : case.light }"
                             ng-click=" highLight(case.word); Edition = true"
@@ -150,17 +178,10 @@ hop
 
                 </div>
 
-                <hr/>
-                <h2>énigmes:</h2>
-                <div class="span12" ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
-                    {{ enigme.enigme}} :
-                    {{ enigme.id}} ) <input size="{{ enigme.reponse.length}}" ng-model="enigme.input" ng-change="compare()"> ( {{ enigme.reponse.length}} )
-                </div>
 
-                <input ng-model="num" />
-                <button ng-click="highLight(num)" ng-init="1">
-                    hightlight {{num}}
-                </button>
+                <hr/>
+
+
                 <hr/>
             </div>
     </div>
@@ -187,12 +208,12 @@ voilà la grille: ( cases )<br/>
     -pouvoir supprimer une énigme dans la liste avec un click dessus.<br/>
     -pouvoir enregistrer une grille d'énigmes.<br/>
     -auto sélection de la direction droite<br/>
-    -limiter la taille de l'input de réponse selon sa distance au bord de grille<br/>
+    x-limiter la taille de l'input de réponse selon sa distance au bord de grille<br/>
     -quand on clique sur un mot, montrer un champ pour l'éditer<br/>
     -tooltip sur les cases d'instruction<br/>
     -édition de mot par fenêtre modale<br/>
     -enregistrement des chaines de guidage<br/>
-    -editToChain() ne rend pas le tableau bien quand on déplace le start d'une réponse.
+    x-editToChain() ne rend pas le tableau bien quand on déplace le start d'une réponse.
     x-direction gauche de mot<br/>
     x-direction bas de mot<br/>
     x-direction haut de mot<br/>
