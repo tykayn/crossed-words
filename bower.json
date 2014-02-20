@@ -1,19 +1,25 @@
 {
-  "name": "crossed-words",
-  "version": "0.0.0",
-  "dependencies": {
-    "angular": "~1.2.0",
-    "json3": "~3.2.4",
-    "es5-shim": "~2.1.0",
-    "jquery": "~1.10.2",
-    "sass-bootstrap": "~3.0.0",
-    "angular-resource": "~1.2.0",
-    "angular-cookies": "~1.2.0",
-    "angular-sanitize": "~1.2.0",
-    "angular-route": "~1.2.0"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.2.0",
-    "angular-scenario": "~1.2.0"
-  }
+	"name": "comm",
+	"version": "1.0.0",
+	"authors": [
+		"ty kayn tykayn@gmail.com"
+	],
+	"description": "some tests with $http",
+	"keywords": [
+		"http",
+		"test"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"angular":"~1.2.0"
+	},
+	"devDependencies": {
+	}
 }
