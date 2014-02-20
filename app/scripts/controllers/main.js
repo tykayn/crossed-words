@@ -1,4 +1,7 @@
 'use strict';
+
+
+
 angular.module('crossedWordsApp')
         .controller('MainCtrl', function($scope) {
 
@@ -14,17 +17,34 @@ angular.module('crossedWordsApp')
             for (var i = 0; i < 100; i++) {
                 tab[i] = {id: i, row: 1, col: 5, content: '', word: 0};
             }
-            console.log(tab)
-            $scope.cases_vides = tab
+            console.log(tab);
+            $scope.cases_vides = tab;
+            $scope.default_direction = {'descr': 'droite'};
+            $scope.colors = [
+                {name: 'black', shade: 'dark'},
+                {name: 'white', shade: 'light'},
+                {name: 'red', shade: 'dark'},
+                {name: 'blue', shade: 'dark'},
+                {name: 'yellow', shade: 'light'}
+            ];
+
             $scope.directions = [
-                {'descr': 'haut'},
-                {'descr': 'bas'},
-                {'descr': 'gauche'},
-                {'descr': 'droite'}
+                {descr: 'haut'},
+                {descr: 'bas'},
+                {descr: 'gauche'},
+                {descr: 'droite'}
+            ];
+            $scope.color = $scope.directions[3]; // red
+
+            $scope.directions2 = [
+                'haut',
+                'bas',
+                'gauche',
+                'droite'
             ];
             $scope.crossbox = {width: 10, height: 10};
             $scope.startId = 0;
-          //  $scope.mots = [];
+            //  $scope.mots = [];
             $scope.side = 50;
             //trouver la taille maximum de la réponse selon l'emplacement de son départ et la taille de grille.
             $scope.responseSize = function() {
@@ -115,15 +135,19 @@ angular.module('crossedWordsApp')
                     if (lacase.word == number) {
                         lacase.light = true;
                     }
-                    else{
+                    else {
                         lacase.light = false;
                     }
                 }
             }
+            /* mettre en surbrillance un mot et enlever la surbrillance aux autres */
+            $scope.focusWord = function(number) {
+                $('#enigme_' + number).focus()
+            }
             /* mettre en surbrillance une case et définir le départ d'édition a cette case */
             $scope.highLight = function(number) {
                 $scope.startId = number;
-               // var tab = $scope.chain.split('');
+                // var tab = $scope.chain.split('');
                 for (var i = 0; i < ($scope.crossbox.width * $scope.crossbox.height); i++) {
                     var lacase = $scope.cases_edit[i];
                     if (lacase.word == number) {
@@ -154,6 +178,18 @@ angular.module('crossedWordsApp')
             $scope.getRow = function(id) {
                 return id;
             }
+
+//            $scope.addLaCase = function(cases, j, tab, compt, num_mot) {
+//                var lacase = {};
+//                lacase.id = j;
+//                lacase.word = num_mot;
+//                if (tab[compt] != '.' && tab[compt] != '') {
+//                    lacase.content = tab[compt];
+//                }
+//                compt++;
+//                return  cases[j] = lacase;
+//            }
+
             // décrypte le tableau d'édition pour en faire une chaine de  guidage
             $scope.editToChain = function(array) {
                 //pour chaque énigme, placer sa réponse selon son orientation
@@ -163,14 +199,14 @@ angular.module('crossedWordsApp')
 
                 var num_mot = 0;
                 //à chaque énigme, définir les cases selon le point de départ
-                console.log('il y a  ' + array.length + ' énigmes');
-                console.log(enigme);
+//                console.log('il y a  ' + array.length + ' énigmes');
+//                console.log(enigme);
                 for (var i = 0; i < array.length; i++) {
                     if (array[i] != null) {
                         num_mot++; // passer au mot suivant    
                         var enigme = array[i];
-                        console.log('editToChain enigme ');
-                        console.log(enigme);
+//                        console.log('editToChain enigme ');
+//                        console.log(enigme);
                         var longueur = enigme.response.length
                         var tab = enigme.response.split('');
                         var idFin = enigme.start;
@@ -195,11 +231,18 @@ angular.module('crossedWordsApp')
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                if (tab[compt] != '') {
+
+                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
+                                if (tab[compt] != '.' && tab[compt] != '') {
                                     lacase.content = tab[compt];
+                                    if (cases[j].content != '.' && cases[j].content != '' && cases[j].content != undefined && cases[j].content != lacase.content) {
+                                     //   console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
+                                        lacase.superposition = true;
+                                    }
                                 }
                                 compt++;
                                 cases[j] = lacase;
+//                              cases =   $scope.addLaCase(cases, j, tab, compt, num_mot);
                             }
                         }
                         else if (dir == 'gauche') {
@@ -208,12 +251,17 @@ angular.module('crossedWordsApp')
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                if (tab[compt] != '') {
+                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
+                                if (tab[compt] != '.' && tab[compt] != '') {
                                     lacase.content = tab[compt];
+                                    if (cases[j].content != '.' && cases[j].content != '' && cases[j].content != undefined) {
+                                     //   console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
+                                        lacase.superposition = true;
+                                    }
                                 }
                                 compt++;
                                 cases[j] = lacase;
-
+//                              cases =   $scope.addLaCase(cases, j, tab, compt, num_mot);
                             }
                         }
                         else if (dir == 'bas') {
@@ -222,13 +270,19 @@ angular.module('crossedWordsApp')
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                if (tab[compt] != '') {
+                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
+                                if (tab[compt] != '.' && tab[compt] != '') {
                                     lacase.content = tab[compt];
+                                    if (cases[j].content != '.' && cases[j].content != '' && cases[j].content != undefined && cases[j].content != lacase.content) {
+                                       //console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
+                                        lacase.superposition = true;
+                                        
+                                    }
                                 }
 
                                 compt++;
                                 cases[j] = lacase;
-
+//                              cases =   $scope.addLaCase(cases, j, tab, compt, num_mot);
                             }
 
                         }
@@ -238,12 +292,17 @@ angular.module('crossedWordsApp')
                                 var lacase = {};
                                 lacase.id = j;
                                 lacase.word = num_mot;
-                                if (tab[compt] != '') {
+                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
+                                if (tab[compt] != '.' && tab[compt] != '') {
                                     lacase.content = tab[compt];
+                                    if (cases[j].content != '.' && cases[j].content != '' && cases[j].content != undefined && cases[j].content != lacase.content) {
+                                     //   console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
+                                        lacase.superposition = true;
+                                    }
                                 }
                                 compt++;
                                 cases[j] = lacase;
-
+//$scope.addLaCase(cases, j, tab, compt, num_mot);
                             }
                         }
                     }
@@ -304,10 +363,25 @@ angular.module('crossedWordsApp')
                         enigmeTab[i] = new Array();
                     }
                     if (enigmeTab[i].input !== undefined) {
-                        tab.response = enigmeTab[i].input;
+                        console.log('réponse attendue ' + enigmeTab[i].response.length)
+                        var answerWantedSize = enigmeTab[i].response.length;
+                        var userAnswer = enigmeTab[i].input.length;
+                        var reste = answerWantedSize - userAnswer;
+                        var complement = '';
+                        for (var j = 0; j < reste; j++) {
+                            complement += '.';
+                        }
+
+                        tab.response = enigmeTab[i].input + complement; // compléter avec des . pour la taille totale de réponse attendue
                     }
                     else {
-                        tab.response = '';
+                        var answerWantedSize = enigmeTab[i].response.length;
+                        var reste = answerWantedSize;
+                        var complement = '';
+                        for (var j = 0; j < reste; j++) {
+                            complement += '.';
+                        }
+                        tab.response = '' + complement;
                     }
                     tab.id = enigmeTab[i].id;
                     tab.enigme = enigmeTab[i].enigme;
@@ -324,8 +398,8 @@ angular.module('crossedWordsApp')
             $scope.cases_edit = [
                 {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
             ];
-            
-            
+
+
             /**
              * énigmes d'exemple
              */
@@ -351,5 +425,21 @@ angular.module('crossedWordsApp')
 
                 return cases
             }
+
+            jQuery(document).ready(function($) {
+                /**
+                 * au survol, mettre en surbrillance le mot
+                 */
+                $('.case').on('mouseenter', function() {
+                    var nbWord = $(this).attr('data-word');
+                    console.log('word' + nbWord)
+                    $('.word_' + nbWord).addClass('highlight');
+                }).on('mouseleave', function() {
+                    var nbWord = $(this).attr('data-word');
+                    $('.word_' + nbWord).removeClass('highlight');
+                })
+
+            });
+            console.log('scripts ok')
         });
-        
+

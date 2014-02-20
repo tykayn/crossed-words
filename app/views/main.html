@@ -13,8 +13,32 @@ hop
         <div>
             Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
-        <fieldset>
 
+        
+        
+                                <select size="6"
+                                ng-change="responseSize()"
+                                ng-model="directions"
+                            ng-options="dirs.descr for dirs in directions ">
+                                    
+                        </select>
+        <select ng-model="default_direction" ng-options="c.descr for c in directions">
+            
+        </select>
+        
+    <ul>
+      <li ng-repeat="color in colors">
+        Name: <input ng-model="color.name">
+        [<a href ng-click="colors.splice($index, 1)">X</a>]
+      </li>
+      <li>
+        [<a href ng-click="colors.push({})">add</a>]
+      </li>
+    </ul>
+    <hr/>
+    Color (null not allowed):
+    <select ng-model="directions2" ng-options="c.descr for c in directions2"></select><br>
+        
 
             <div class="grille"  style="width:100%;" ng-init="upChain()">
 
@@ -51,7 +75,12 @@ hop
                         <input type="number" ng-change="editToChain(editWords)" ng-model="word.start"  ng-maxlength="3"/>
                         <input  ng-change="editToChain(editWords)" ng-model="word.enigme"  />
                         <input  ng-change="editToChain(editWords)" ng-model="word.response" size="{{ crossbox.width}}"/>
-                        <select size="6" ng-change="responseSize()" ng-model="word.direction.descr" ng-options="dirs.descr for dirs in directions "></select>
+                        <select size="6"
+                                ng-change="responseSize()"
+                                ng-model="word.direction.descr"
+                            ng-options="dirs.descr for dirs in directions ">
+                                    
+                        </select>
 
                         <input  ng-change="editToChain(editWords)" ng-model="word.direction.descr"  />
                         <button ng-click="removeEnigme($index)">
@@ -66,7 +95,7 @@ hop
                     <h2 ng-click="startId = 12;">Rendu d'édition:</h2>
 
                     <div ng-init="editToChain(editWords)" class="well" height="{{ side * crossbox.height}}px" width="{{ side * crossbox.width}}px" >
-                        <div class="span6 " ng-repeat="case in cases_edit| orderBy:'id':number " >
+                        <div class="" ng-repeat="case in cases_edit| orderBy:'id':number " >
                             <div 
                                 ng-class="{ highLight : case.light }"
                                 ng-click="hlStart(case.id);"
@@ -97,7 +126,7 @@ hop
                             <ul ng-show="Edition" class="span12"  >
                                 <li class="row-fluid unstyled" ng-repeat="word in editWords| orderBy:'id':number ">
                                     <div class="span6">
-                                        {{$index}} ) ------- {{word.enigme}}
+                                        {{$index}} ) {{word.enigme}}
                                     </div>
                                     <div class="span6">
                                         <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
@@ -135,14 +164,14 @@ hop
                                             {{ enigme.id}} )    {{ enigme.enigme}} :
                                         </label>
                                     </div>  
-                                    <div class="span6">
+                                    <div class="span7">
                                         <input 
-                                            d="enigme_{{ enigme.id}}" 
+                                            id="enigme_{{ enigme.id}}" 
                                             class="input input-lg" 
                                             maxlength="{{ enigme.response.length}}"
                                             size="{{ enigme.response.length}}" 
                                             ng-model="enigme.input"
-                                            ng-change="compare(); highLightWord(enigme.id)"
+                                            ng-blur="compare(); highLightWord(enigme.id)"
                                             ng-focus="highLightWord(enigme.id)"
                                             >
                                         ( {{ enigme.response.length}} lettres)
@@ -152,24 +181,25 @@ hop
                         </div>
                         <div class="span6">
                             <section class="well-sm well">
-                                <h2>Grille:</h2>
+                                <h2>Grilleeeeeeeeeeee:</h2>
                                 <div class=""   
-                                     style=" height: {{ side * crossbox.height}}px ; width : {{ side * (crossbox.width + 1) }}px"
+                                     style=" height: {{ side * crossbox.height}}px ; width : {{ side * (crossbox.width) }}px"
                                      >
 
 
-                                    <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number " >
+                                    <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number "
+                                         ng-init="editToChain(editWords)" >
 
                                         <div 
-                                            ng-class="{ highLight : case.light }"
-                                            ng-click=" highLight(case.word); Edition = true"
-                                            ng-mouseenter="highLight(case.word)"
-                                            ng-mouseleave="highLight(case.word)"
-                                            data-row="{{ case.row}}"
-                                            data-col="{{ case.col}}"
-                                            data-word="{{ case.word}}"
-                                            width="{{ side}}px"
-                                            height="{{ side}}px"
+                                            ng-class="{ highLight : case.light , superposition : case.superposition }"
+                                            ng-click=" highLightWord(case.word); focusWord(case.word); Edition = true"
+                                            ng-mouseenter="highLightWord(case.word)"
+                                            ng-mouseleave="highLightWord(case.word)"
+                                            data-row="{{ case.row }}"
+                                            data-col="{{ case.col }}"
+                                            data-word="{{ case.word }}"
+                                            width="{{ side }}px"
+                                            height="{{ side }}px"
 
                                             class="case word_{{ case.word}} {{ case.class}}"
                                             >
@@ -178,6 +208,8 @@ hop
                                         </div>
                                     </div>
                                 </div>
+                                
+                               
                             </section>
                         </div>
                     </div>

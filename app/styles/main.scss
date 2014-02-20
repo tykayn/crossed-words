@@ -100,11 +100,12 @@ body {
     float: left;
     /*clear: none;*/
     display: inline-block;
-    margin: 2px;
+  /*  margin: 2px;*/
     cursor: pointer;
     text-align: center !important;
     padding-top: 15px;
-}
+    border: solid 1px #fff;
+} 
 .case:hover{
     background: #ccc;
 }
@@ -118,8 +119,11 @@ body {
     overflow: hidden;
 }
 
+.superposition{
+    color: red;
+}
 .highLight{
-    background: #0099FF;
+    background: #FFF; /* #0099FF */
 }
 
 .navbar .nav>li>a{
@@ -137,3 +141,4 @@ body {
 .well{
     background: #ccc;
 }
+/**/
