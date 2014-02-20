@@ -2,7 +2,7 @@
 
 
 
-angular.module('crossedWordsApp')
+angular.module('crossedWordsApp' )
         .controller('MainCtrl', function($scope) {
 
             // chaine de guidage
@@ -170,14 +170,14 @@ angular.module('crossedWordsApp')
             };
 
 
-            // donne la colonne de l'id demandé selon la taille de la grille
-            $scope.getCol = function(id) {
-                return id;
-            }
-            // donne la ligne de l'id demandé selon la taille de la grille
-            $scope.getRow = function(id) {
-                return id;
-            }
+//            // donne la colonne de l'id demandé selon la taille de la grille
+//            $scope.getCol = function(id) {
+//                return id;
+//            }
+//            // donne la ligne de l'id demandé selon la taille de la grille
+//            $scope.getRow = function(id) {
+//                return id;
+//            }
 
 //            $scope.addLaCase = function(cases, j, tab, compt, num_mot) {
 //                var lacase = {};
@@ -395,25 +395,22 @@ angular.module('crossedWordsApp')
                 return tabRep;
             }
 
-            $scope.cases_edit = [
-                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
-            ];
+            $scope.cases_edit = []
+//                    [
+//                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
+//            ];
 
 
             /**
              * énigmes d'exemple
              */
-            $scope.mots = [{"id": 1, "response": "sumotori", "enigme": "oiseau léger", "start": 41, "direction": {"descr": "droite"}}, {"id": 2, "response": "fesses", "enigme": "callypiges", "start": 21, "direction": {"descr": "bas"}}, {"id": 3, "response": "poulet", "enigme": "et mon cul c'est du", "start": 36, "direction": {"descr": "bas"}}]
+            $scope.mots = [{"id":1,"response":"sumotori","enigme":"oiseau léger","start":41,"direction":{"descr":"droite"},"input":""},{"id":2,"response":"fesses","enigme":"callypiges","start":21,"direction":{"descr":"bas"}},{"id":3,"response":"poulet","enigme":"et mon cul c'est du","start":36,"direction":{"descr":"bas"}},{"id":5,"response":"fada","enigme":"fou dans le sud","start":21,"direction":{"descr":"droite"}},{"id":6,"response":"démon","enigme":"oni, en Japonais signifie","start":23,"direction":{"descr":"bas"}},{"id":7,"response":"qzine","enigme":"nom du fanzine CULturel","start":5,"direction":{"descr":"droite"}}];
+            
+            
+          
 
             $scope.editWords = $scope.mots;
             $scope.cases_exemple = $scope.mots;
-//            $scope.cases_exemple = [
-//                {id: 1, row: 1, col: 1, content: 'a', word: 1, light: 0},
-//                {id: 2, row: 1, col: 2, content: 'b', word: 1, light: 0},
-//                {id: 3, row: 1, col: 3, content: 'c', word: 1, light: 0},
-//                {id: 4, row: 1, col: 4, content: 'd', word: 1, light: 0},
-//                {id: 5, row: 1, col: 5, content: 'e', word: 1, light: 0}];
-
             /* créer une lsite de cases vides */
             $scope.casesVides = function() {
                 var cases = []
@@ -430,7 +427,7 @@ angular.module('crossedWordsApp')
                 /**
                  * au survol, mettre en surbrillance le mot
                  */
-                $('.case').on('mouseenter', function() {
+                $('.case').on('hover', function() {
                     var nbWord = $(this).attr('data-word');
                     console.log('word' + nbWord)
                     $('.word_' + nbWord).addClass('highlight');
@@ -441,5 +438,17 @@ angular.module('crossedWordsApp')
 
             });
             console.log('scripts ok')
+            
+//            $scope.init =  $http({method: 'GET', url: 'scripts/data/enigmes2.json'}).
+//                        success(function(data, status) {
+//                            $scope.status = status;
+//                            $scope.mots = data;
+//                            console.log('succès')
+//                            console.log(data)
+//                        }).
+//                        error(function(data, status) {
+//                            $scope.mots = data || "Request failed";
+//                            $scope.status = status;
+//                        });
         });
 
