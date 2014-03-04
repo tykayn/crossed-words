@@ -422,21 +422,23 @@ angular.module('crossedWordsApp' )
 
                 return cases
             }
-
-            jQuery(document).ready(function($) {
-                /**
-                 * au survol, mettre en surbrillance le mot
-                 */
-                $('.case').on('hover', function() {
-                    var nbWord = $(this).attr('data-word');
-                    console.log('word' + nbWord)
-                    $('.word_' + nbWord).addClass('highlight');
-                }).on('mouseleave', function() {
-                    var nbWord = $(this).attr('data-word');
-                    $('.word_' + nbWord).removeClass('highlight');
-                })
-
-            });
+//            if( undefined !==  jQuery ){
+//                jQuery(document).ready(function($) {
+//                /**
+//                 * au survol, mettre en surbrillance le mot
+//                 */
+//                $('.case').on('hover', function() {
+//                    var nbWord = $(this).attr('data-word');
+//                    console.log('word' + nbWord)
+//                    $('.word_' + nbWord).addClass('highlight');
+//                }).on('mouseleave', function() {
+//                    var nbWord = $(this).attr('data-word');
+//                    $('.word_' + nbWord).removeClass('highlight');
+//                })
+//
+//            });
+//            }
+            
             console.log('scripts ok')
             
 //            $scope.init =  $http({method: 'GET', url: 'scripts/data/enigmes2.json'}).

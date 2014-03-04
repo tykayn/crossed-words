@@ -14,7 +14,7 @@ hop
             Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
 
-        
+        {{ mots}}
                 
     <hr/>
             <div class="grille"  style="width:100%;" ng-init="upChain()">
@@ -103,7 +103,7 @@ hop
                                         {{$index}} ) {{word.enigme}}
                                     </div>
                                     <div class="span6">
-                                        <input  ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
+                                        <input class="enigme" ng-change="editToChain(editWords)" ng-model="word.UserResponse" size="{{ word.response.length}}"  maxlength="{{ word.response.length}}"/> ({{ word.response.length}} lettres)
                                     </div>
 
 
