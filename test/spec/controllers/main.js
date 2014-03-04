@@ -33,6 +33,21 @@ describe('Controller: MainCtrl', function() {
         scope.compare();
         expect(scope.mots[0].ok).toBeFalsy();
     });
+    it('should not won', function() {
+        var rep = [
+            'sumotori',
+            'nope',
+            'poulet',
+            '',
+            'démon',
+            ''
+        ];
+        for (var i = 0; i < (scope.mots.length); i++) {
+            scope.mots[i].input = rep[i];
+        }
+        scope.compare();
+        expect(scope.won).toBeFalsy();
+    });
     it('should won', function() {
         var rep = [
             'sumotori',
