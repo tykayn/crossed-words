@@ -8,15 +8,7 @@
             <div class="span6">
                 <section class="well">
                     <h2>énigmes:</h2>
-                    wordtocase {{wordtocase.length}}.
-
-                    mot en surbrillance : {{highLighted}}
-                    <button class="btn btn-primary" ng-click="fill()">
-                        fill
-                    </button>
-                    <button class="btn btn-primary" ng-click="downLightAll(1)">
-                        down light all
-                    </button>
+                    
                     <div class="alert alert-success" ng-show="won">
                         Woot! vous avez gagné!
                     </div>
@@ -46,7 +38,17 @@
                     </div>
                 </section>
                 <section>
-                    {{wordtocase}}
+                    <h2>Debug</h2>
+                    wordtocase {{wordtocase.length}}.
+
+                    mot en surbrillance : {{highLighted}}
+                    <button class="btn btn-primary" ng-click="fill()">
+                        fill
+                    </button>
+                    <button class="btn btn-primary" ng-click="downLightAll(1)">
+                        down light all
+                    </button>
+                    <!--{{wordtocase}}-->
 
                 </section>
             </div>

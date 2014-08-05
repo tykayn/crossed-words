@@ -154,7 +154,7 @@ angular.module('crossedWordsApp')
                 }
                 $scope.highLighted = number;
                 $scope.downLightAll(number);
-                console.log('highLightWord ' + number)
+//                console.log('highLightWord ' + number)
 //                console.log('highLightWord ' + $scope.cases.length)
                 var tabcases = $scope.wordtocase[number - 1].cases; // -1 car le tableau commence a 0 et non 1.
 //                console.log('tabcases ' + tabcases)
@@ -178,7 +178,7 @@ angular.module('crossedWordsApp')
              */
             $scope.downLightAll = function(id) {
 
-                console.log('downLightAll');
+//                console.log('downLightAll');
 
                 for (var i = 0; i < $scope.wordtocase.length; i++) {
                     if (i == id) {
@@ -218,6 +218,52 @@ angular.module('crossedWordsApp')
             // pour chaque lettre devant recevoir la réponse
             $scope.wordtocase = [];
 
+            /*
+             * utilisé par editToChain()
+             * @param {type} j
+             * @param {type} wordtocase
+             * @param {type} num_mot
+             * @param {type} tab
+             * @param {type} cases
+             * @param {type} compt
+             * @returns {undefined}
+             */
+            $scope.makeCase = function(j, wordtocase, num_mot, tab, cases, compt) {
+                var lacase = {};
+                lacase.id = j;
+                wordtocase.cases.push(j);
+                lacase.word = num_mot;
+
+                // il y a superposition lorsque la lettre de la réponse actuelle
+                // écrase la lettre de la case courante.
+                if (tab[compt] !== '.' && tab[compt] !== '') {
+                    lacase.content = tab[compt];
+
+
+                    if (
+                            cases[j].content !== '.' &&
+                            cases[j].content !== '' &&
+                            cases[j].content !== undefined &&
+                            cases[j].content !== lacase.content
+                            ) {
+
+                        lacase.superposition = true;
+
+                        if (
+                                typeof (cases[j].content) !== undefined &&
+                                typeof (tab[compt]) !== undefined
+                                )
+                        {
+                            lacase.content = cases[j].content + '/' + tab[compt];
+//                                        console.log(lacase.content);
+                        }
+
+                    }
+                    console.log('réponse: ' + lacase.content + ' case ' + j + ':  ' + cases[j].content);
+                }
+                compt++;
+                cases[j] = lacase;
+            };
             // décrypte le tableau d'édition pour afficher les cases
             $scope.editToChain = function(array) {
 //                $scope.wordtocase = [];
@@ -263,123 +309,26 @@ angular.module('crossedWordsApp')
                         if (dir === 'droite' || typeof (dir) === undefined) {
 
                             for (var j = enigme.start; j < arrivee; j++) {
-                                var lacase = {};
-                                lacase.id = j;
-                                wordtocase.cases.push(j);
-                                lacase.word = num_mot;
-
-                                // il y a superposition lorsque la lettre de la réponse actuelle
-                                // écrase la lettre de la case courante.
-                                if (tab[compt] !== '.' && tab[compt] !== '') {
-                                    lacase.content = tab[compt];
-
-
-                                    if (
-                                            cases[j].content !== '.' &&
-                                            cases[j].content !== '' &&
-                                            cases[j].content !== undefined &&
-                                            cases[j].content !== lacase.content
-                                            ) {
-
-                                        lacase.superposition = true;
-
-                                        if (
-                                                typeof (cases[j].content) !== undefined &&
-                                                typeof (tab[compt]) !== undefined
-                                                )
-                                        {
-                                            lacase.content = cases[j].content + '/' + tab[compt];
-//                                        console.log(lacase.content);
-                                        }
-
-                                    }
-                                    console.log('réponse: ' + lacase.content + ' case ' + j + ':  ' + cases[j].content)
-                                }
-                                compt++;
-                                cases[j] = lacase;
-//                              cases =   $scope.addLaCase(cases, j, tab, compt, num_mot);
+                                $scope.makeCase(j, wordtocase, num_mot, tab, cases, compt);
                             }
                         }
                         else if (dir == 'gauche') {
                             var arrivee = enigme.start - longueur * 1;
                             for (var j = enigme.start; j > arrivee; j--) {
-                                var lacase = {};
-                                lacase.id = j;
-                                wordtocase.cases.push(j);
-                                lacase.word = num_mot;
-                                // il y a superposition lorsque
-                                // la lettre de la réponse actuelle
-                                // écrase la lettre de la case courante.
-                                if (
-                                        tab[compt] !== '.' &&
-                                        tab[compt] !== ''
-                                        ) {
-                                    lacase.content = tab[compt];
-                                    if (
-                                            cases[j].content !== '.' &&
-                                            cases[j].content !== '' &&
-                                            cases[j].content !== undefined
-                                            ) {
-                                        //   console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
-                                        lacase.superposition = true;
-                                    }
-                                }
-                                compt++;
-                                cases[j] = lacase;
+                                $scope.makeCase(j, wordtocase, num_mot, tab, cases, compt);
                             }
                         }
                         else if (dir == 'bas') {
                             var arrivee = enigme.start + (longueur * $scope.crossbox.width);
                             for (var j = enigme.start; j < arrivee; j += $scope.crossbox.width) {
-                                var lacase = {};
-                                lacase.id = j;
-                                wordtocase.cases.push(j);
-                                lacase.word = num_mot;
-                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
-                                if (
-                                        tab[compt] !== '.' &&
-                                        tab[compt] !== ''
-                                        ) {
-                                    lacase.content = tab[compt];
-                                    if (cases[j].content != '.' && cases[j].content != '' && cases[j].content != undefined && cases[j].content != lacase.content) {
-                                        //console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
-                                        lacase.superposition = true;
-
-                                    }
-                                }
-
-                                compt++;
-                                cases[j] = lacase;
-//                              cases =   $scope.addLaCase(cases, j, tab, compt, num_mot);
+                                $scope.makeCase(j, wordtocase, num_mot, tab, cases, compt);
                             }
 
                         }
                         else if (dir == 'haut') {
                             var arrivee = enigme.start - (longueur * $scope.crossbox.width);
                             for (var j = enigme.start; j > arrivee; j -= $scope.crossbox.width) {
-                                var lacase = {};
-                                lacase.id = j;
-                                wordtocase.cases.push(j);
-                                lacase.word = num_mot;
-                                // il y a superposition lorsque la lettre de la réponse actuelle écrase la lettre de la case courante.
-                                if (
-                                        tab[compt] !== '.' &&
-                                        tab[compt] !== ''
-                                        ) {
-                                    lacase.content = tab[compt];
-                                    if (
-                                            cases[j].content !== '.' &&
-                                            cases[j].content !== '' &&
-                                            cases[j].content !== undefined &&
-                                            cases[j].content !== lacase.content
-                                            ) {
-                                        //   console.log('réponse: ' + lacase.content + ' case:  ' + cases[j].content)
-                                        lacase.superposition = true;
-                                    }
-                                }
-                                compt++;
-                                cases[j] = lacase;
-
+                                $scope.makeCase(j, wordtocase, num_mot, tab, cases, compt);
                             }
                         }
                     }

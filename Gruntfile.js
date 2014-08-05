@@ -396,7 +396,7 @@ require('load-grunt-tasks')(grunt);
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
+  //  'newer:jshint',
     'test',
     'build'
   ]);
