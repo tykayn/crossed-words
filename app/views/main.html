@@ -13,8 +13,10 @@ hop
         <div>
             Créer des jeux de mots croisés et les résoudre en javascript.
         </div>
+        <div class="well" contenteditable=true>
+            {{mots}}
+        </div>
 
-        {{ mots}}
                 
     <hr/>
             <div class="grille"  style="width:100%;" ng-init="upChain()">
@@ -132,15 +134,20 @@ hop
                         <div class="span6">
                             <section class="well">
                                 <h2>énigmes:</h2>
+                                <button class="btn btn-primary" ng-click="fill()">
+                                    fill
+                                </button>
                                 <div class="alert alert-success" ng-show="won">
                                     Woot! vous avez gagné!
                                 </div>
                                 <!--mots : {{mots}}-->
                                 <!--                    responsesUser : {{responsesUser}}-->
-                                <div class="row-fluid " ng-repeat="enigme in mots| orderBy:'id':number " ng-class="{ highLight : enigme.ok }">
+                                <div class="row-fluid "
+                                     ng-repeat="enigme in mots| orderBy:'id':number "
+                                     ng-class="{ highLight : enigme.ok }">
                                     <div class="span5">
-                                        <label for="enigme_{{ enigme.id}}">
-                                            {{ enigme.id}} )    {{ enigme.enigme}} :
+                                        <label for="enigme_{{ enigme.id }}">
+                                            {{ enigme.id }} )    {{ enigme.enigme }} :
                                         </label>
                                     </div>  
                                     <div class="span7">
@@ -151,7 +158,7 @@ hop
                                             size="{{ enigme.response.length}}" 
                                             ng-model="enigme.input"
                                             ng-change="compare();highLightWord(enigme.id)"
-                                            ng-blur=" highLightWord(enigme.id)"
+                                            ng-blur=" downLightWord(enigme.id)"
                                             ng-focus="highLightWord(enigme.id)"
                                             >
                                         ( {{ enigme.response.length}} lettres)

@@ -2,6 +2,12 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
+
+/* variables */
+
+$dark : #222;
+
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -124,6 +130,7 @@ body {
 }
 .highLight{
     background: #FFF; /* #0099FF */
+    color: $dark;
 }
 
 .navbar .nav>li>a{

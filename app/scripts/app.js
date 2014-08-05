@@ -1,7 +1,7 @@
 
 
 'use strict';
-
+  
 angular.module('crossedWordsApp', [
   'ngCookies',
   'ngResource',
