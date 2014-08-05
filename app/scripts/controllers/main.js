@@ -153,6 +153,7 @@ angular.module('crossedWordsApp')
                     return;
                 }
                 $scope.highLighted = number;
+                $scope.downLightAll(number);
                 console.log('highLightWord ' + number)
 //                console.log('highLightWord ' + $scope.cases.length)
                 var tabcases = $scope.wordtocase[number - 1].cases; // -1 car le tableau commence a 0 et non 1.
@@ -170,7 +171,7 @@ angular.module('crossedWordsApp')
                 }
             }
             /* 
-            /**
+             /**
              * enlever la surbrillance aux autres mots que celui dont on donne l'id
              * @param {type} id
              * @returns {undefined}
@@ -178,20 +179,21 @@ angular.module('crossedWordsApp')
             $scope.downLightAll = function(id) {
 
                 console.log('downLightAll');
-                console.log('$scope.wordtocase.length' + $scope.wordtocase.length);
+
                 for (var i = 0; i < $scope.wordtocase.length; i++) {
-                    if(i == id){
+                    if (i == id) {
                         continue;
                     }
+                    console.log('$scope.wordtocase.length' + $scope.wordtocase.length);
                     $scope.downLightWord(i);
                 }
 
             }
             $scope.downLightWord = function(number) {
-                var tabcases = $scope.wordtocase[number - 1].cases; // -1 car le tableau commence a 0 et non 1.
+                var tabcases = $scope.wordtocase[number].cases;
                 for (var i = 0; i < tabcases.length; i++) {
                     var lacase = $scope.cases[tabcases[i]];
-                    lacase.light = false;               
+                    lacase.light = false;
                 }
             }
             /* mettre le focus sur l'input */
