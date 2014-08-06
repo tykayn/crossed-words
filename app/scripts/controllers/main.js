@@ -167,9 +167,9 @@ angular.module('crossedWordsApp')
 
             }
             $scope.downLightWord = function(number) {
-                
-                if( typeof($scope.wordtocase[number]) === undefined ){
-                    window.console.log("pas de wordtocase n°"+number);
+
+                if (typeof ($scope.wordtocase[number]) === undefined) {
+                    window.console.log("pas de wordtocase n°" + number);
                     return;
                 }
 //                console.log('downLightWord n°' + number);
@@ -184,13 +184,13 @@ angular.module('crossedWordsApp')
                 $('#enigme_' + number).focus().select();
 
             }
-             $scope.upAllWords = function() {
-                 window.console.log("up all words");
-                for ( var i = 0; i < $scope.mots.length ; i++){
+            $scope.upAllWords = function() {
+                window.console.log("up all words");
+                for (var i = 0; i < $scope.mots.length; i++) {
                     $scope.upWord(i);
                 }
             }
-            
+
             /* update de mot avec wordtocase */
             $scope.upWord = function(number) {
                 if (typeof ($scope.mots) === undefined) {
@@ -371,7 +371,7 @@ angular.module('crossedWordsApp')
                 $scope.editWords.push(word);
                 $scope.editToChain($scope.editWords)
             };
-            
+
             // comparer la réponse donnée par l'utilisateur et la bonne
             $scope.compare = function() {
                 window.console.log("comparaison");
@@ -389,7 +389,7 @@ angular.module('crossedWordsApp')
                 }
                 else {
                     $scope.won = false;
-                    window.console.log(compt_ok+"/"+$scope.mots.length+" bonnes réponses, c'est pas encore gagné");
+                    window.console.log(compt_ok + "/" + $scope.mots.length + " bonnes réponses, c'est pas encore gagné");
                 }
 
                 /* remplir la grille de résultat avec la réponse de l'utilisateur */
@@ -470,6 +470,32 @@ angular.module('crossedWordsApp')
             }
 
             //remplir les réponses de lettres pour voir leur rendu dans la grille
+            $scope.fillHint = function() {
+
+                var hintTab = new Array(1, 3, 4, 2, 1, 3, 4, 2, 1, 3);
+
+                window.console.log($scope.mots.length);
+                if ($scope.mots === undefined) {
+                    window.console.log("pas de mots");
+                    return;
+                }
+                var i = 0;
+
+                for (var mot in $scope.mots) {
+                    var add= "";
+                    var lettre = $scope.mots[i]['response'].substr(hintTab[i],1);
+//                    var lettre = $scope.mots[i]['response'].substr(0, 1);
+                    for(var j = 0; j < hintTab[i]; j++){
+                        add +=' ';
+                    }
+//                    window.console.log($scope.mots[i]['response']);
+                    $scope.mots[i].input = add+lettre;
+
+                    i++;
+                }
+                console.log('remplissage bon ok');
+            };
+            //remplir les réponses de lettres pour voir leur rendu dans la grille
             $scope.fillGood = function() {
                 window.console.log($scope.mots.length);
                 if ($scope.mots === undefined) {
@@ -525,10 +551,12 @@ angular.module('crossedWordsApp')
                 window.console.log($scope.cases.length + ' cases');
 
                 //remplir de fausses données les réponses de l'utilisateur
-                $scope.fill();
+//                $scope.fill();
+
+                $scope.fillHint(); //donner quelques lettres d'indice
                 $scope.upAllWords();
                 $scope.compare();
-//                $scope.fillGood();
+                ////                $scope.fillGood();
 //                $scope.upAllWords();
 //                $scope.compare();
             }

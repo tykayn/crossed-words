@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/tykayn/www/crossed_words/app/styles/style_compiled.css</file>
-            <file>file:/home/tykayn/www/crossed_words/app/styles/main.scss</file>
-            <file>file:/home/tykayn/www/crossed_words/app/views/main.html</file>
-            <file>file:/home/tykayn/www/crossed_words/app/index.html</file>
-            <file>file:/home/tykayn/www/crossed_words/app/scripts/controllers/main.js</file>
-            <file>file:/home/tykayn/www/crossed_words/Gruntfile.js</file>
-            <file>file:/home/tykayn/www/crossed_words/test/spec/controllers/main.js</file>
-            <file>file:/home/tykayn/www/crossed_words/app/scripts/app.js</file>
-            <file>file:/home/tykayn/www/crossed_words/karma.conf.js</file>
+            <file>file:/media/sdd2/www/crossed_words/app/views/main.html</file>
+            <file>file:/media/sdd2/www/crossed_words/app/scripts/controllers/main.js</file>
+            <file>file:/media/sdd2/www/crossed_words/app/json/example.json</file>
+            <file>file:/media/sdd2/www/crossed_words/app/scripts/scripts.js</file>
+            <file>file:/media/sdd2/www/crossed_words/app/index.html</file>
+            <file>file:/media/sdd2/www/crossed_words/app/scripts/app.js</file>
         </group>
     </open-files>
 </project-private>

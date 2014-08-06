@@ -8,14 +8,14 @@
             <div class="span6">
                 <section class="well">
                     <h2>énigmes:</h2>
-                    
+
                     <div class="alert alert-success" ng-show="won">
                         Woot! vous avez gagné!
                     </div>
                     <div class="row-fluid "
                          ng-repeat="enigme in mots| orderBy:'id':number "
                          ng-class="{ highLight : enigme.ok }"
-                         ng-showwwwwwwwww="highLighted == enigme.id "
+                         ng-show="highLighted == enigme.id"
                          >
                         <div class="span5">
                             <label for="{{ 'enigme_' + enigme.id}}">
@@ -29,44 +29,53 @@
                                 maxlength="{{ enigme.response.length}}"
                                 size="{{ enigme.response.length}}"
                                 ng-model="enigme.input"
-                                ng-change="upWord(enigme.id - 1); console.log('changé');"
+                                ng-change="upWord(enigme.id - 1); compare();"
                                 ng-blur=" downLightWord(enigme.id)"
                                 ng-focus="highLightWord(enigme.id)"
-                                value="{{ enigme.response }}"
+                                value="{{ enigme.response}}"
                                 >
                             ( {{ enigme.response.length}} lettres)
                         </div>
                     </div>
                 </section>
                 <section>
-                    <h2>Debug</h2>
-                    wordtocase {{wordtocase.length}}.
+                    <h2 ng-click="showdebug = !showdebug">
+                        <b class="btn btn-info">
+                            Debug
+                        </b>
+                    </h2>
 
-                    mot en surbrillance : {{highLighted}}
-                    <button class="btn btn-primary" ng-click="fillGood()">
-                        fillGood
-                    </button>
-                    <button class="btn btn-primary" ng-click="upAllWords()">
-                        upAllWords
-                    </button>
-                    <button class="btn btn-primary" ng-click="fill()">
-                        fill
-                    </button>
-                    <button class="btn btn-primary" ng-click="compare()">
-                        compare
-                    </button>
-                    <button class="btn btn-primary" ng-click="downLightAll(1)">
-                        down light all
-                    </button>
-                    <div class="well">
-                        <h3>wordtocase</h3>
-                        {{wordtocase}}
-                    </div>
-                    <div class="well">
-                        <h3>mots</h3>
-                        {{mots}}
-                    </div>
+                    <div id="debugland"
+                         ng-show="showdebug">
 
+
+                        wordtocase {{wordtocase.length}}.
+
+                        mot en surbrillance : {{highLighted}}
+                        <button class="btn btn-primary" ng-click="fillGood()">
+                            fillGood
+                        </button>
+                        <button class="btn btn-primary" ng-click="upAllWords()">
+                            upAllWords
+                        </button>
+                        <button class="btn btn-primary" ng-click="fill()">
+                            fill
+                        </button>
+                        <button class="btn btn-primary" ng-click="compare()">
+                            compare
+                        </button>
+                        <button class="btn btn-primary" ng-click="downLightAll(1)">
+                            down light all
+                        </button>
+                        <div class="well">
+                            <h3>wordtocase</h3>
+                            {{wordtocase}}
+                        </div>
+                        <div class="well">
+                            <h3>mots</h3>
+                            {{mots}}
+                        </div>
+                    </div>
 
                 </section>
             </div>
@@ -79,10 +88,10 @@
 
 
                         <div class="" ng-repeat="case in cases| orderBy:'id':number "
-                              >
+                             >
 
                             <div
-                                ng-class="{ highLight : case.light , superposition : case.superposition }"
+                                ng-class="{ highLight : case.light , superposition : case.superposition , tofill: case.content }"
                                 ng-click="focusWord(case.word); Edition = true"
                                 ng-mouseenter="highLightWord(case.word)"
                                 ng-mouseleave="highLightWord(case.word)"
@@ -188,8 +197,8 @@
                 <h2 ng-click="startId = 12;">Rendu d'édition:</h2>
 
                 <div  class="well"
-                     style=" height: {{ (2 + side) * crossbox.height}}px ; width : {{ (5 + side) * (crossbox.width)}}px"
-                     >
+                      style=" height: {{ (2 + side) * crossbox.height}}px ; width : {{ (5 + side) * (crossbox.width)}}px"
+                      >
                     <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number " >
                         <div
                             ng-class="{ highLight : case.light }"
@@ -250,7 +259,7 @@
         </div>
     </div>
 
-<div class="footer">
+    <div class="footer">
         <h2>Left TODO</h2>
         édition:<br/>
 
