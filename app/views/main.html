@@ -1,4 +1,4 @@
-<div >
+<div ng-init="cwinit()">
 
     <div class="row-fluid">
 
@@ -12,13 +12,13 @@
                     <div class="alert alert-success" ng-show="won">
                         Woot! vous avez gagné!
                     </div>
-                    <!--mots : {{mots}}-->
-                    <!--                    responsesUser : {{responsesUser}}-->
                     <div class="row-fluid "
                          ng-repeat="enigme in mots| orderBy:'id':number "
-                         ng-class="{ highLight : enigme.ok }">
+                         ng-class="{ highLight : enigme.ok }"
+                         ng-showwwwwwwwww="highLighted == enigme.id "
+                         >
                         <div class="span5">
-                            <label for="enigme_{{ enigme.id}}">
+                            <label for="{{ 'enigme_' + enigme.id}}">
                                 {{ enigme.id}} )    {{ enigme.enigme}} :
                             </label>
                         </div>
@@ -29,9 +29,10 @@
                                 maxlength="{{ enigme.response.length}}"
                                 size="{{ enigme.response.length}}"
                                 ng-model="enigme.input"
-                                ng-change="compare(); highLightWord(enigme.id)"
+                                ng-change="upWord(enigme.id - 1); console.log('changé');"
                                 ng-blur=" downLightWord(enigme.id)"
-                                ng-focus="downLightAll(enigme.id); highLightWord(enigme.id)"
+                                ng-focus="highLightWord(enigme.id)"
+                                value="{{ enigme.response }}"
                                 >
                             ( {{ enigme.response.length}} lettres)
                         </div>
@@ -42,13 +43,30 @@
                     wordtocase {{wordtocase.length}}.
 
                     mot en surbrillance : {{highLighted}}
+                    <button class="btn btn-primary" ng-click="fillGood()">
+                        fillGood
+                    </button>
+                    <button class="btn btn-primary" ng-click="upAllWords()">
+                        upAllWords
+                    </button>
                     <button class="btn btn-primary" ng-click="fill()">
                         fill
+                    </button>
+                    <button class="btn btn-primary" ng-click="compare()">
+                        compare
                     </button>
                     <button class="btn btn-primary" ng-click="downLightAll(1)">
                         down light all
                     </button>
-                    <!--{{wordtocase}}-->
+                    <div class="well">
+                        <h3>wordtocase</h3>
+                        {{wordtocase}}
+                    </div>
+                    <div class="well">
+                        <h3>mots</h3>
+                        {{mots}}
+                    </div>
+
 
                 </section>
             </div>
@@ -60,12 +78,12 @@
                          >
 
 
-                        <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number "
-                             ng-init="editToChain(editWords)" >
+                        <div class="" ng-repeat="case in cases| orderBy:'id':number "
+                              >
 
                             <div
                                 ng-class="{ highLight : case.light , superposition : case.superposition }"
-                                ng-click=" highLightWord(case.word); focusWord(case.word); Edition = true"
+                                ng-click="focusWord(case.word); Edition = true"
                                 ng-mouseenter="highLightWord(case.word)"
                                 ng-mouseleave="highLightWord(case.word)"
                                 data-row="{{ case.row}}"
@@ -76,7 +94,7 @@
 
                                 class="case word_{{ case.word}} {{ case.class}}"
                                 >
-                                {{ case.word}}
+                                <!--{{ case.word}}-->
                                 {{ case.content}}
 
                             </div>
@@ -169,7 +187,7 @@
 
                 <h2 ng-click="startId = 12;">Rendu d'édition:</h2>
 
-                <div ng-init="editToChain(editWords)" class="well"
+                <div  class="well"
                      style=" height: {{ (2 + side) * crossbox.height}}px ; width : {{ (5 + side) * (crossbox.width)}}px"
                      >
                     <div class="" ng-repeat="case in cases_exemple| orderBy:'id':number " >
@@ -232,21 +250,7 @@
         </div>
     </div>
 
-    <h2>Démo</h2>
-
-    <br/>
-    <label>Chaîne de guidage du tableau</label>  <input ng-model='chain' ng-change="upChain()" ng-init="{{ chain}}"/>
-    <br/>
-
-    voilà la grille: ( cases )<br/>
-
-    <div ng-show="Edition" >
-        Edit this word:
-        <input ng-model="editword"/>
-        <button>ok</button>
-
-    </div>
-    <div class="footer">
+<div class="footer">
         <h2>Left TODO</h2>
         édition:<br/>
 
